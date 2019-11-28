@@ -12,6 +12,7 @@ class Parent_firstView : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_parent_first_view)
 
         val listview = findViewById(R.id.child_list) as ListView
