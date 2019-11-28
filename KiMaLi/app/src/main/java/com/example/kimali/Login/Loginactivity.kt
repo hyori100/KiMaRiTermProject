@@ -1,4 +1,4 @@
-package com.example.kimali
+package com.example.kimali.Login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.example.kimali.Parent_firstView
+import com.example.kimali.R
 
-class login_activity : AppCompatActivity() {
+class Loginactivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,12 +22,12 @@ class login_activity : AppCompatActivity() {
         val loginButton=findViewById<Button>(R.id.loginButton)
 
         signUpTextView.setOnClickListener { view ->
-            val intent= Intent(this,SignupActivity::class.java)
+            val intent= Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
 
         loginButton.setOnClickListener { view->
-            val intent=Intent(this,Parent_firstView::class.java)
+            val intent=Intent(this, Parent_firstView::class.java)
             startActivity(intent)
         }
 

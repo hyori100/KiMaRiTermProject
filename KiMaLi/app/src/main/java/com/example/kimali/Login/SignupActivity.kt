@@ -1,4 +1,4 @@
-package com.example.kimali
+package com.example.kimali.Login
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kimali.R
 
 class SignupActivity : AppCompatActivity(){
 
