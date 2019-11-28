@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "55244094213",
+    "firebase_url": "https://communicationwithparent.firebaseio.com",
+    "project_id": "communicationwithparent",
+    "storage_bucket": "communicationwithparent.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55244094213:android:d1a6a1c64f7c1f1169156c",
+        "android_client_info": {
+          "package_name": "com.example.kimali"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55244094213-av3ar68n18a9sbbj5nj283h0umhvd5p3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMXxpnM-vltrcDXoD3YER4_mINoAp6yy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55244094213-av3ar68n18a9sbbj5nj283h0umhvd5p3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
