@@ -18,13 +18,13 @@
         <activity android:name=".Parent_firstView">
 
         </activity>
-        <activity android:name=".SignupActivity">
+        <activity android:name=".Login.SignupActivity">
 
         </activity>
         <activity android:name=".parent_listview_activity">
 
         </activity>
-        <activity android:name=".login_activity">
+        <activity android:name=".Login.Loginactivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

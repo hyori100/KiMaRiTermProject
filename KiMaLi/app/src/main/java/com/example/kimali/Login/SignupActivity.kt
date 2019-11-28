@@ -1,4 +1,4 @@
-package com.example.kimali
+package com.example.kimali.Login
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -8,8 +8,12 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kimali.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class SignupActivity : AppCompatActivity(){
+    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +29,7 @@ class SignupActivity : AppCompatActivity(){
         val signupConfirm=findViewById<EditText>(R.id.edtSignupPWConfirm)
         val signupButton=findViewById<Button>(R.id.btnSignupSubmit)
 
+        database = FirebaseDatabase.getInstance().reference
 
         //라디오 버튼 선택 함수
         radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
@@ -48,8 +53,8 @@ class SignupActivity : AppCompatActivity(){
             val childIdText = childId.getText().toString()
             val signup_u_pw_confirm = signupConfirm.text.toString()
 
-            if(signupPwText.equals(signupConfirm)){
-
+            if(signupPwText.equals(signup_u_pw_confirm)){
+                writeNewUser(signupIdText, signupPwText, who)
             }
             else {
                 password_dialog()
@@ -63,16 +68,16 @@ class SignupActivity : AppCompatActivity(){
         //tilte 부분 xml
         builder.setTitle("경고")
         builder.setMessage("비밀번호가 일치하지 않습니다.");
-        /*val inflater = layoutInflater
-        val view: View = inflater.inflate(R.layout.normal_dialog, null)
-        val location_edit = view.findViewById<TextView>(R.id.delete_text)*/
-        /*location_edit.setTextColor(Color.GRAY)
-        location_edit.text = "비밀번호가 일치하지 않습니다."
-        builder.setView(view)*/
+
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which -> })
         builder.show()
+    }
+
+    private fun writeNewUser(userId: String, user_pw: String?, who: String?) {
+        val user = User(user_pw, who)
+        database.child("users").child(userId).setValue(user)
     }
 
 }
