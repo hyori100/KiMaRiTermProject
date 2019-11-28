@@ -14,55 +14,72 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="horizontal">
 
-            <Spinner
+            <TextView
                 android:id="@+id/year_select"
+                android:gravity="center"
+                android:textSize="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/year"
+                android:textSize="20dp"
+                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="년" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/month_select"
+                android:gravity="center"
+                android:textSize="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/month"
+                android:textSize="20dp"
+                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="월" />
 
-            <Spinner
+            <TextView
+                android:textSize="20dp"
+                android:gravity="center"
                 android:id="@+id/day_select"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/day"
+                android:gravity="center"
+                android:textSize="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="일" />
 
             <Button
                 android:id="@+id/confirm"
+
                 android:layout_width="70dp"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:layout_weight="0.1"
-                android:text="confirm"
-                android:textSize="9dp" />
+                android:background="@drawable/primary_border_fill_login"
+                android:text="날짜선택"
+                android:textSize="15dp" />
         </LinearLayout>
 
         <ListView
