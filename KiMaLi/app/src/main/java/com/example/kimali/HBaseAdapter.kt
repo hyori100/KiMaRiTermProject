@@ -16,7 +16,7 @@ class HBaseAdapter(context: Context,item : Array<String>, item2 : Array<Int>) : 
     private val mContext = context
     private val mItem = item
     private val mItem2 = item2
-
+    //test
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         lateinit var viewHolder : ViewHolder
         var view = convertView
