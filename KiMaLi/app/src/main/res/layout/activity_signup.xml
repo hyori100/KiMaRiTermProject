@@ -5,8 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="login_activity">
-
+    tools:context=".SignupActivity">
     <LinearLayout
         android:layout_centerInParent="true"
         android:orientation="vertical"
@@ -23,6 +22,26 @@
             android:scaleType="centerInside"
             android:adjustViewBounds="true"
             android:id="@+id/imgLoginLogo"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:id="@+id/radio_group">
+
+            <RadioButton
+                android:id="@+id/parent_radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="보호자" />
+            <RadioButton
+                android:id="@+id/child_radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="자녀" />
+        </RadioGroup>
+
         <EditText
             android:layout_width="240dp"
             android:layout_height="40dp"
@@ -30,10 +49,10 @@
             android:ems="10"
             android:hint="아이디"
             android:textColorHint="#CECECE"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:paddingLeft="15dp"
             android:background="@drawable/gray_border_login"
-            android:id="@+id/edtLoginID" android:textSize="12dp"/>
+            android:id="@+id/edtSignupID" android:textSize="12dp"/>
         <EditText
             android:layout_width="240dp"
             android:layout_height="40dp"
@@ -44,43 +63,35 @@
             android:layout_marginTop="15dp"
             android:paddingLeft="15dp"
             android:background="@drawable/gray_border_login"
-            android:id="@+id/edtLoginPW" android:textSize="12dp"/>
+            android:id="@+id/edtSignupPW" android:textSize="12dp"/>
+        <EditText
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:ems="10"
+            android:hint="패스워드 확인"
+            android:textColorHint="#CECECE"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="15dp"
+            android:background="@drawable/gray_border_login"
+            android:id="@+id/edtSignupPWConfirm" android:textSize="12dp" android:inputType="textPassword"/>
+        <EditText
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:ems="10"
+            android:hint="자녀 아이디"
+            android:textColorHint="#CECECE"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="15dp"
+            android:background="@drawable/gray_border_login"
+            android:id="@+id/edtChildID" android:textSize="12dp" android:inputType="textPersonName"/>
         <Button
-            android:text="로그인"
+            android:text="회원가입"
             android:textSize="14dp"
             android:layout_width="240dp"
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/primary_border_fill_login"
-            android:id="@+id/loginButton"
+            android:id="@+id/btnSignupSubmit"
             style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF" android:textStyle="bold"/>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp">
-            <TextView
-                android:text="아직 회원이 아니십니까? "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtLoginInfo"
-                android:layout_weight="1"
-                android:textColor="#C7C7C7"
-                android:gravity="right" android:textSize="11dp"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:textStyle="bold"
-                android:textColor="#707070"
-                android:text=" 회원가입"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtLoginSignup"
-                android:layout_weight="1" android:textSize="11dp"/>
-        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
