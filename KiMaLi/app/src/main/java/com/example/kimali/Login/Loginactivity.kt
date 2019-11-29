@@ -31,6 +31,7 @@ class Loginactivity : AppCompatActivity() {
         val loginPwText=findViewById<EditText>(R.id.edtLoginPW)
         val loginButton=findViewById<Button>(R.id.loginButton)
         val loginId = loginIdText.text.toString()
+        val loginPw = loginPwText.text.toString()
 
         mDatabase = FirebaseDatabase.getInstance().reference
 
@@ -57,6 +58,23 @@ class Loginactivity : AppCompatActivity() {
                         for(login_id in login_id_list){
                             if (login_id==loginId){
                                 okay = 1
+                                mDatabase.child("users").child(login_id).addListenerForSingleValueEvent(
+                                    object : ValueEventListener {
+                                        override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
+                                            //firebase에서 user-pw 가져온다
+                                            var pw = dataSnapshot.value.toString()
+
+                                            if (pw == loginPw) {
+                                                login_dialog()
+                                            } else {
+                                                pw_wrong_dialog()
+                                            }
+
+                                        }
+
+                                        override fun onCancelled(databaseError: DatabaseError) {}
+                                    })
+                                break
                             }
                         }
 
@@ -81,6 +99,18 @@ class Loginactivity : AppCompatActivity() {
         //tilte 부분 xml
         builder.setTitle("경고")
         builder.setMessage("아이디가 일치하지 않습니다.");
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which -> })
+        builder.show()
+    }
+
+    fun pw_wrong_dialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("경고")
+        builder.setMessage("비밀번호가 일치하지 않습니다.");
 
         //확인버튼
         builder.setPositiveButton("확인",
