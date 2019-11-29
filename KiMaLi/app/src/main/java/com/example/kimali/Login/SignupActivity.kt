@@ -2,7 +2,6 @@ package com.example.kimali.Login
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
@@ -25,7 +24,7 @@ class SignupActivity : AppCompatActivity(){
         val radioGroup=findViewById<RadioGroup>(R.id.radio_group)
         var signupId=findViewById(R.id.edtSignupID) as EditText
         val signupPw=findViewById<EditText>(R.id.edtSignupPW)
-        val childName=findViewById<EditText>(R.id.edtChildName)
+        val name=findViewById<EditText>(R.id.edtName)
         val signupConfirm=findViewById<EditText>(R.id.edtSignupPWConfirm)
         val signupButton=findViewById<Button>(R.id.btnSignupSubmit)
 
@@ -35,12 +34,11 @@ class SignupActivity : AppCompatActivity(){
         radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.child_radioButton -> {
-                    childName.setVisibility(View.VISIBLE)
+
                     who = "자녀"
                 }
                 R.id.parent_radioButton -> {
-                    childName.setText("")
-                    childName.setVisibility(View.GONE)
+
                     who = "보호자"
                 }
             }
@@ -50,11 +48,11 @@ class SignupActivity : AppCompatActivity(){
         signupButton.setOnClickListener { view->
             val signupIdText = signupId.text.toString()
             val signupPwText = signupPw.text.toString()
-            val childIdText = childName.getText().toString()
+            val nameText = name.getText().toString()
             val signup_u_pw_confirm = signupConfirm.text.toString()
 
             if(signupPwText.equals(signup_u_pw_confirm)){
-                writeNewUser(signupIdText, signupPwText, who)
+                writeNewUser(signupIdText, signupPwText, who, nameText)
             }
             else {
                 password_dialog()
@@ -75,8 +73,8 @@ class SignupActivity : AppCompatActivity(){
         builder.show()
     }
 
-    private fun writeNewUser(userId: String, user_pw: String?, who: String?) {
-        val user = User(user_pw, who)
+    private fun writeNewUser(userId: String, user_pw: String?, who: String?, nameText: String?) {
+        val user = User(user_pw, who, nameText)
         database.child("users").child(userId).setValue(user)
     }
 
