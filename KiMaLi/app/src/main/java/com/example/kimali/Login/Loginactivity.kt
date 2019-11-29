@@ -9,7 +9,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kimali.Parent_firstView
+import com.example.kimali.BridgeActivity
+import com.example.kimali.ParentFirstViewActivity
 import com.example.kimali.R
 import com.google.firebase.database.*
 
@@ -131,9 +132,35 @@ class Loginactivity : AppCompatActivity() {
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
-                val intent=Intent(this, Parent_firstView::class.java)
-                intent.putExtra("id", loginId)
-                startActivity(intent)
+                mDatabase.child("users").child(loginId).child("who").addListenerForSingleValueEvent(
+                    object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
+                            //firebase에서 user-pw 가져온다
+                            var who = dataSnapshot.value.toString()
+
+                            if (who == "보호자") {
+                                val intent=Intent(applicationContext, ParentFirstViewActivity::class.java)
+                                intent.putExtra("id", loginId)
+                                intent.putExtra("who", who)
+                                startActivity(intent)
+                            } else {
+                                //자녀일 경우 보류
+                                val intent=Intent(applicationContext, BridgeActivity::class.java)
+                                intent.putExtra("id", loginId)
+                                intent.putExtra("who", who)
+                                startActivity(intent)
+                            }
+
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
+
+
+
+
+
+
             })
 
         builder.show()
