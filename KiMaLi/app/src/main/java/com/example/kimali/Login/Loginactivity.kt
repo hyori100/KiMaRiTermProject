@@ -18,7 +18,8 @@ class Loginactivity : AppCompatActivity() {
 
     private lateinit var mDatabase: DatabaseReference
     lateinit var login_id_list: ArrayList<String>
-    lateinit var login_pw_list: ArrayList<String>
+    lateinit var loginId: String
+    lateinit var loginPw: String
     var okay: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +31,9 @@ class Loginactivity : AppCompatActivity() {
         val loginIdText=findViewById<EditText>(R.id.edtLoginID)
         val loginPwText=findViewById<EditText>(R.id.edtLoginPW)
         val loginButton=findViewById<Button>(R.id.loginButton)
-        val loginId = loginIdText.text.toString()
-        val loginPw = loginPwText.text.toString()
 
+
+        login_id_list = ArrayList()
         mDatabase = FirebaseDatabase.getInstance().reference
 
 
@@ -45,6 +46,8 @@ class Loginactivity : AppCompatActivity() {
 
         loginButton.setOnClickListener { view->
             okay = 0
+            loginId = loginIdText.text.toString()
+            loginPw = loginPwText.text.toString()
             mDatabase.child("users").addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
@@ -56,13 +59,15 @@ class Loginactivity : AppCompatActivity() {
                         }
                         //입력한 id와 데이터베이스 user_id 비교
                         for(login_id in login_id_list){
+
                             if (login_id==loginId){
                                 okay = 1
-                                mDatabase.child("users").child(login_id).addListenerForSingleValueEvent(
+                                mDatabase.child("users").child(login_id).child("user_pw").addListenerForSingleValueEvent(
                                     object : ValueEventListener {
                                         override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
                                             //firebase에서 user-pw 가져온다
                                             var pw = dataSnapshot.value.toString()
+                                            Log.d("sangmin", pw+":"+loginPw)
 
                                             if (pw == loginPw) {
                                                 login_dialog()
@@ -88,8 +93,7 @@ class Loginactivity : AppCompatActivity() {
                 })
 
 
-            val intent=Intent(this, Parent_firstView::class.java)
-            startActivity(intent)
+
         }
 
     }
@@ -117,4 +121,22 @@ class Loginactivity : AppCompatActivity() {
             DialogInterface.OnClickListener { dialog, which -> })
         builder.show()
     }
+
+    fun login_dialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("확인")
+        builder.setMessage("로그인 되었습니다.");
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+                val intent=Intent(this, Parent_firstView::class.java)
+                intent.putExtra("id", loginId)
+                startActivity(intent)
+            })
+
+        builder.show()
+    }
+
 }
