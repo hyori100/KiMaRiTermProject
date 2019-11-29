@@ -25,7 +25,7 @@ class SignupActivity : AppCompatActivity(){
         val radioGroup=findViewById<RadioGroup>(R.id.radio_group)
         var signupId=findViewById(R.id.edtSignupID) as EditText
         val signupPw=findViewById<EditText>(R.id.edtSignupPW)
-        val childId=findViewById<EditText>(R.id.edtChildID)
+        val childName=findViewById<EditText>(R.id.edtChildName)
         val signupConfirm=findViewById<EditText>(R.id.edtSignupPWConfirm)
         val signupButton=findViewById<Button>(R.id.btnSignupSubmit)
 
@@ -34,14 +34,14 @@ class SignupActivity : AppCompatActivity(){
         //라디오 버튼 선택 함수
         radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.parent_radioButton -> {
-                    childId.setVisibility(View.VISIBLE)
-                    who = "보호자"
-                }
                 R.id.child_radioButton -> {
-                    childId.setText("")
-                    childId.setVisibility(View.GONE)
+                    childName.setVisibility(View.VISIBLE)
                     who = "자녀"
+                }
+                R.id.parent_radioButton -> {
+                    childName.setText("")
+                    childName.setVisibility(View.GONE)
+                    who = "보호자"
                 }
             }
         })
@@ -50,7 +50,7 @@ class SignupActivity : AppCompatActivity(){
         signupButton.setOnClickListener { view->
             val signupIdText = signupId.text.toString()
             val signupPwText = signupPw.text.toString()
-            val childIdText = childId.getText().toString()
+            val childIdText = childName.getText().toString()
             val signup_u_pw_confirm = signupConfirm.text.toString()
 
             if(signupPwText.equals(signup_u_pw_confirm)){
