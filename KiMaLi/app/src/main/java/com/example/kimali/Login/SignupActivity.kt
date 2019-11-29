@@ -13,13 +13,17 @@ import com.google.firebase.database.FirebaseDatabase
 
 class SignupActivity : AppCompatActivity(){
     private lateinit var database: DatabaseReference
+    lateinit var signupIdText: String
+    lateinit var signupPwText: String
+    lateinit var nameText: String
+    var who="보호자"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_signup)
 
-        var who="보호자"
+
 
         val radioGroup=findViewById<RadioGroup>(R.id.radio_group)
         var signupId=findViewById(R.id.edtSignupID) as EditText
@@ -34,11 +38,9 @@ class SignupActivity : AppCompatActivity(){
         radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.child_radioButton -> {
-
                     who = "자녀"
                 }
                 R.id.parent_radioButton -> {
-
                     who = "보호자"
                 }
             }
@@ -46,13 +48,14 @@ class SignupActivity : AppCompatActivity(){
 
         //회원가입 버튼
         signupButton.setOnClickListener { view->
-            val signupIdText = signupId.text.toString()
-            val signupPwText = signupPw.text.toString()
-            val nameText = name.getText().toString()
+            signupIdText = signupId.text.toString()
+            signupPwText = signupPw.text.toString()
+            nameText = name.getText().toString()
             val signup_u_pw_confirm = signupConfirm.text.toString()
 
             if(signupPwText.equals(signup_u_pw_confirm)){
-                writeNewUser(signupIdText, signupPwText, who, nameText)
+                confirm_dialog()
+
             }
             else {
                 password_dialog()
@@ -73,6 +76,25 @@ class SignupActivity : AppCompatActivity(){
         builder.show()
     }
 
+    fun confirm_dialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("확인")
+        builder.setMessage("회원가입 되었습니다.");
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+                writeNewUser(signupIdText, signupPwText, who, nameText)
+                finish()
+            })
+        builder.setNegativeButton("취소",
+            DialogInterface.OnClickListener{ dialog, which ->
+            })
+        builder.show()
+    }
+
+    //파이어베이스에 데이터 쓰는 메소드
     private fun writeNewUser(userId: String, user_pw: String?, who: String?, nameText: String?) {
         val user = User(user_pw, who, nameText)
         database.child("users").child(userId).setValue(user)
