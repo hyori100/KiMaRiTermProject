@@ -3,10 +3,7 @@ package com.example.kimali
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.RadioGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.Login.User
 import java.util.*
@@ -17,8 +14,8 @@ class parent_setting_add_activity : AppCompatActivity() {
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_parent_adding)
 
-        val missionName = findViewById(R.id.mission_Name_TextView) as TextView
-        val missionMessage = findViewById(R.id.mission_Message_EditText) as TextView
+        val missionName = findViewById(R.id.mission_Name_TextView) as EditText
+        val missionMessage = findViewById(R.id.mission_Message_EditText) as EditText
 
         val finishButton=findViewById<Button>(R.id.add_finish_button)
 
