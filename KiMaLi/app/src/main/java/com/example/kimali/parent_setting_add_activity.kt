@@ -49,6 +49,7 @@ class parent_setting_add_activity : AppCompatActivity() {
             }
         })
 
+        //설정하게 되는 미션시작날짜
         var startDatebutton=findViewById<View>(R.id.startDateSettingButton)
         startDatebutton.setOnClickListener(View.OnClickListener { view ->
             val c = Calendar.getInstance()
@@ -82,6 +83,7 @@ class parent_setting_add_activity : AppCompatActivity() {
 
         })
 
+        //설정하게 되는 미션완료날짜
         var lastDateButton=findViewById<View>(R.id.lastDateSettingButton)
         lastDateButton.setOnClickListener(View.OnClickListener { view ->
             val c = Calendar.getInstance()
@@ -115,7 +117,9 @@ class parent_setting_add_activity : AppCompatActivity() {
 
         })
 
+        //확인완료 버튼
         finishButton.setOnClickListener { view->
+            //한 미션의 데이터 확인을 위한 toast문
             Toast.makeText(applicationContext,missionName.getText().toString()+","+missionMessage.getText().toString()+","+
                 money+","+pcTime+","+strDate+" ~ "+lastDate,Toast.LENGTH_LONG).show()
 
@@ -124,7 +128,6 @@ class parent_setting_add_activity : AppCompatActivity() {
 
         }
 
-        Toast.makeText(applicationContext,strDate+" ~ "+lastDate,Toast.LENGTH_LONG).show()
 
     }
 
