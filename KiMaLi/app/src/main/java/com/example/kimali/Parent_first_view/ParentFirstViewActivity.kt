@@ -20,7 +20,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ParentFirstViewActivity : AppCompatActivity() {
-    val array: ArrayList<String> = ArrayList()
+    lateinit var array: ArrayList<String>
     private lateinit var mDatabase: DatabaseReference
     lateinit var who : String
     var okay: Int = 0
@@ -30,6 +30,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
     lateinit var name: String
     lateinit var loginId: String
     lateinit var topic: String
+    lateinit var adapter: ArrayAdapter<String>
 
 
 
@@ -43,12 +44,29 @@ class ParentFirstViewActivity : AppCompatActivity() {
         loginId = intent.getStringExtra("id")
         login_id_list = ArrayList()
         name_list = ArrayList()
-        array.add("상민")
+        array = ArrayList()
 
         val listview = findViewById(R.id.child_list) as ListView
-        val adapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, array)
+        adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, array)
+
+        mDatabase.child("users").child(who).child(loginId).child("children").addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
+                    //firebase에서 user-id 전부 가져온다
+                    for (messageData in dataSnapshot.getChildren()){
+                        var child = messageData.key.toString()
+                        Log.d("sangmin", child)
+                        array.add(child)
+                    }
+
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
 
         listview.adapter = adapter
+
 
 
     }
@@ -122,7 +140,10 @@ class ParentFirstViewActivity : AppCompatActivity() {
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
+                adapter.notifyDataSetChanged()
                 writeChild()
+
+
 
             })
 
