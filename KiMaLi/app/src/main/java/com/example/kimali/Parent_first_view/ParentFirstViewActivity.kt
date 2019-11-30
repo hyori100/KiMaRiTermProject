@@ -47,16 +47,18 @@ class ParentFirstViewActivity : AppCompatActivity() {
         array = ArrayList()
 
         val listview = findViewById(R.id.child_list) as ListView
-        adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, array)
+        adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, ArrayList<String>())
 
         mDatabase.child("users").child(who).child(loginId).child("children").addListenerForSingleValueEvent(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
                     //firebase에서 user-id 전부 가져온다
+                    adapter.clear()
                     for (messageData in dataSnapshot.getChildren()){
                         var child = messageData.key.toString()
                         Log.d("sangmin", child)
-                        array.add(child)
+                        name_list.add(child)
+                        adapter.add(child)
                     }
 
                     adapter.notifyDataSetChanged()
@@ -67,9 +69,9 @@ class ParentFirstViewActivity : AppCompatActivity() {
 
         listview.adapter = adapter
 
-
-
     }
+
+
 
     fun add_child_dialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -140,11 +142,11 @@ class ParentFirstViewActivity : AppCompatActivity() {
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
-                adapter.notifyDataSetChanged()
+
                 writeChild()
 
-
-
+                adapter.add(name)
+                adapter.notifyDataSetChanged()
             })
 
         builder.setNegativeButton("취소",
