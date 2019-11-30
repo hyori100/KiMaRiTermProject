@@ -24,6 +24,9 @@
         <activity android:name=".parent_listview_activity">
 
         </activity>
+        <activity android:name=".parent_setting_add_activity">
+
+        </activity>
         <activity android:name=".Login.Loginactivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

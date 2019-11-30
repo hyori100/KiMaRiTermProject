@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_parent_mission_list.*
@@ -22,34 +23,17 @@ class Parent_missionList : AppCompatActivity() {
         val textView2 = findViewById(R.id.month_select) as TextView
         val textView3 = findViewById(R.id.day_select) as TextView
 
-        var button=findViewById<View>(R.id.confirm)
-        button.setOnClickListener(View.OnClickListener { view ->
-            val c = Calendar.getInstance()
-            val nYear = c.get(Calendar.YEAR)
-            val nMon = c.get(Calendar.MONTH)
-            val nDay = c.get(Calendar.DAY_OF_MONTH)
+        val addButton=findViewById(R.id.addButton) as Button
+        addButton.setOnClickListener { view->
+            val intent = Intent(this, parent_setting_add_activity::class.java)
+            //intent.putExtra("selectedString", selectedItem)
+            this.startActivity(intent)
+        }
 
-            val mDateSetListener =
-                DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    var strDate = year.toString() + "년 "
-                    strDate += (monthOfYear + 1).toString() + "월 "
-                    strDate += dayOfMonth.toString() + "일"
-
-                    textView1.setText(year.toString())
-                    textView2.setText((monthOfYear+1).toString())
-                    textView3.setText(dayOfMonth.toString())
-
-                    Toast.makeText(applicationContext, strDate, Toast.LENGTH_SHORT).show()
-                }
-
-            val oDialog = DatePickerDialog(
-                this,
-                android.R.style.Theme_DeviceDefault_Light_Dialog,
-                mDateSetListener, nYear, nMon, nDay
-            )
-            oDialog.show()
-
-        })
+        val c=Calendar.getInstance()
+        textView1.setText(Integer.toString(c.get(Calendar.YEAR)))
+        textView2.setText(Integer.toString(c.get(Calendar.MONTH)+1))
+        textView3.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)))
 
         if (intent.hasExtra("selectedString")) {
             val text = intent.getStringExtra("selectedString")
