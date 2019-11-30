@@ -14,6 +14,7 @@ import com.example.kimali.BridgeActivity
 import com.example.kimali.ParentFirstViewActivity
 import com.example.kimali.R
 import com.google.firebase.database.*
+import kotlin.math.log
 
 
 class Loginactivity : AppCompatActivity() {
@@ -77,23 +78,13 @@ class Loginactivity : AppCompatActivity() {
 
                             if (login_id==loginId){
                                 okay = 1
-                                mDatabase.child("users").child(who).child(login_id).child("user_pw").addListenerForSingleValueEvent(
-                                    object : ValueEventListener {
-                                        override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
-                                            //firebase에서 user-pw 가져온다
-                                            var pw = dataSnapshot.value.toString()
-                                            Log.d("sangmin", pw+":"+loginPw)
+                                var pw = dataSnapshot.child(login_id).child("user_pw").value.toString()
+                                if (pw == loginPw) {
+                                    login_dialog()
+                                } else {
+                                    pw_wrong_dialog()
+                                }
 
-                                            if (pw == loginPw) {
-                                                login_dialog()
-                                            } else {
-                                                pw_wrong_dialog()
-                                            }
-
-                                        }
-
-                                        override fun onCancelled(databaseError: DatabaseError) {}
-                                    })
                                 break
                             }
                         }

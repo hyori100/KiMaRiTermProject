@@ -15,13 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 
 class ParentFirstViewActivity : AppCompatActivity() {
-    val array: Array<String> = arrayOf("아들1","아들2","아들3","딸1","딸2")
+    val array: ArrayList<String> = ArrayList()
     private lateinit var mDatabase: DatabaseReference
     lateinit var who : String
     var okay: Int = 0
     lateinit var login_id_list: ArrayList<String>
     lateinit var name_list: ArrayList<String>
     lateinit var child_id: String
+    lateinit var name: String
 
 
 
@@ -35,6 +36,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
         val loginId = intent.getStringExtra("id")
         login_id_list = ArrayList()
         name_list = ArrayList()
+        array.add("상민")
 
         val listview = findViewById(R.id.child_list) as ListView
         val adapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, array)
@@ -67,9 +69,12 @@ class ParentFirstViewActivity : AppCompatActivity() {
                                 Log.d("sangmin", login_id)
                                 login_id_list.add(login_id)
                             }
+                            name = dataSnapshot.child(child_id).child("nameText").value.toString()
+                            Log.d("sangmee", name)
                             for (login_id in login_id_list) {
                                 if (login_id == child_id) {
                                     okay = 1
+
                                     id_correct_dialog()
                                     break
                                 }
@@ -104,29 +109,20 @@ class ParentFirstViewActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         //tilte 부분 xml
         builder.setTitle("알림")
-        builder.setMessage(child_id+"님을 자녀로 추가하시겠습니까?");
+        builder.setMessage(name+"님을 자녀로 추가하시겠습니까?");
 
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
 
-                mDatabase.child("users").child("자녀").child(child_id).child("nameText").addListenerForSingleValueEvent(
-                    object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
-                            //firebase에서 user-pw 가져온다
-                            var name = dataSnapshot.value.toString()
 
-                        }
-
-                        override fun onCancelled(databaseError: DatabaseError) {}
-                    })
             })
 
         builder.setNegativeButton("취소",
             DialogInterface.OnClickListener { dialog, which -> })
         builder.show()
     }
-
+    //메뉴
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_child, menu)
         return super.onCreateOptionsMenu(menu)
