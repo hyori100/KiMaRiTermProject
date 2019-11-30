@@ -10,12 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.R
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.*
 
 class SignupActivity : AppCompatActivity(){
     private lateinit var database: DatabaseReference
     lateinit var signupIdText: String
     lateinit var signupPwText: String
     lateinit var nameText: String
+    lateinit var topic: String
+
     var who="보호자"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,7 @@ class SignupActivity : AppCompatActivity(){
             signupIdText = signupId.text.toString()
             signupPwText = signupPw.text.toString()
             nameText = name.getText().toString()
+            topic = randomString()
             val signup_u_pw_confirm = signupConfirm.text.toString()
 
             if(signupPwText.equals(signup_u_pw_confirm)){
@@ -85,7 +89,7 @@ class SignupActivity : AppCompatActivity(){
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
-                writeNewUser(signupIdText, signupPwText, who, nameText)
+                writeNewUser(signupIdText, signupPwText, who, nameText, topic)
                 finish()
             })
         builder.setNegativeButton("취소",
@@ -95,9 +99,33 @@ class SignupActivity : AppCompatActivity(){
     }
 
     //파이어베이스에 데이터 쓰는 메소드
-    private fun writeNewUser(userId: String, user_pw: String?, who: String?, nameText: String?) {
-        val user = User(user_pw, who, nameText)
-        database.child("users").child(userId).setValue(user)
+    private fun writeNewUser(userId: String, user_pw: String?, who: String, nameText: String?, topic: String) {
+        val user = User(user_pw, nameText)
+        val child_user = Child(user_pw, nameText, topic)
+        if(who == "보호자"){
+            database.child("users").child(who).child(userId).setValue(user)
+        }
+        else{
+            database.child("users").child(who).child(userId).setValue(child_user)
+
+        }
+    }
+
+    fun randomString(): String {
+        val topic = StringBuffer()
+        val rnd = Random()
+        for (i in 0..19) {
+            val rIndex = rnd.nextInt(3)
+            when (rIndex) {
+                0 ->  // a-z
+                    topic.append((rnd.nextInt(26) + 97).toChar())
+                1 ->  // A-Z
+                    topic.append((rnd.nextInt(26) + 65).toChar())
+                2 ->  // 0-9
+                    topic.append(rnd.nextInt(10))
+            }
+        }
+        return topic.toString()
     }
 
 }
