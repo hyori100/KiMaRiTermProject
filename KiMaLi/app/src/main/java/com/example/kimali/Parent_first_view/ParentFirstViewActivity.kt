@@ -1,4 +1,4 @@
-package com.example.kimali
+package com.example.kimali.Parent_first_view
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -12,7 +12,12 @@ import android.widget.EditText
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kimali.Login.Child
+import com.example.kimali.Login.User
+import com.example.kimali.R
 import com.google.firebase.database.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ParentFirstViewActivity : AppCompatActivity() {
     val array: ArrayList<String> = ArrayList()
@@ -23,6 +28,8 @@ class ParentFirstViewActivity : AppCompatActivity() {
     lateinit var name_list: ArrayList<String>
     lateinit var child_id: String
     lateinit var name: String
+    lateinit var loginId: String
+    lateinit var topic: String
 
 
 
@@ -33,7 +40,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance().reference
         val intent: Intent = getIntent()
         val who = intent.getStringExtra("who")
-        val loginId = intent.getStringExtra("id")
+        loginId = intent.getStringExtra("id")
         login_id_list = ArrayList()
         name_list = ArrayList()
         array.add("상민")
@@ -69,6 +76,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
                                 Log.d("sangmin", login_id)
                                 login_id_list.add(login_id)
                             }
+                            topic = dataSnapshot.child(child_id).child("topic").value.toString()
                             name = dataSnapshot.child(child_id).child("nameText").value.toString()
                             Log.d("sangmee", name)
                             for (login_id in login_id_list) {
@@ -114,7 +122,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
-
+                writeChild()
 
             })
 
@@ -141,5 +149,14 @@ class ParentFirstViewActivity : AppCompatActivity() {
             R.id.modify -> {}
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun writeChild() {
+        val post = ChildTopic(topic)
+        val postValues = post.toMap()
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["/users/보호자/$loginId/children/$name"] = postValues
+
+        mDatabase.updateChildren(childUpdates)
     }
 }

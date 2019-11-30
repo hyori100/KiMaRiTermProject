@@ -109,9 +109,6 @@ class SignupActivity : AppCompatActivity(){
             database.child("users").child(who).child(userId).setValue(child_user)
 
         }
-
-
-
     }
 
     fun randomString(): String {

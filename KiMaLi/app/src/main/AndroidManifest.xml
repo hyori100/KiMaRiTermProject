@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".BridgeActivity"></activity>
         <activity android:name=".Parent_missionList"></activity>
-        <activity android:name=".ParentFirstViewActivity"></activity>
+        <activity android:name=".Parent_first_view.ParentFirstViewActivity"></activity>
         <activity android:name=".Login.SignupActivity"></activity>
         <activity android:name=".parent_listview_activity"></activity>
         <activity android:name=".Login.Loginactivity">
