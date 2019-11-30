@@ -23,6 +23,28 @@
             android:scaleType="centerInside"
             android:adjustViewBounds="true"
             android:id="@+id/imgLoginLogo"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:id="@+id/radio_group_login">
+
+            <RadioButton
+                android:id="@+id/parent_radioButton_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="보호자" />
+            <RadioButton
+                android:id="@+id/child_radioButton_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="자녀" />
+        </RadioGroup>
+
+
         <EditText
             android:layout_width="240dp"
             android:layout_height="40dp"
@@ -30,7 +52,7 @@
             android:ems="10"
             android:hint="아이디"
             android:textColorHint="#CECECE"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:paddingLeft="15dp"
             android:background="@drawable/gray_border_login"
             android:id="@+id/edtLoginID" android:textSize="12dp"/>

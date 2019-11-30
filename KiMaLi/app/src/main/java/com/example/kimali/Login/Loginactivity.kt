@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ class Loginactivity : AppCompatActivity() {
     lateinit var loginId: String
     lateinit var loginPw: String
     var okay: Int = 0
+    var who="보호자"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,18 @@ class Loginactivity : AppCompatActivity() {
         val loginIdText=findViewById<EditText>(R.id.edtLoginID)
         val loginPwText=findViewById<EditText>(R.id.edtLoginPW)
         val loginButton=findViewById<Button>(R.id.loginButton)
+
+        val radioGroup=findViewById<RadioGroup>(R.id.radio_group_login)
+        radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.child_radioButton_login -> {
+                    who = "자녀"
+                }
+                R.id.parent_radioButton_login -> {
+                    who = "보호자"
+                }
+            }
+        })
 
 
         login_id_list = ArrayList()
@@ -49,7 +63,7 @@ class Loginactivity : AppCompatActivity() {
             okay = 0
             loginId = loginIdText.text.toString()
             loginPw = loginPwText.text.toString()
-            mDatabase.child("users").addListenerForSingleValueEvent(
+            mDatabase.child("users").child(who).addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
                         //firebase에서 user-id 전부 가져온다
@@ -63,7 +77,7 @@ class Loginactivity : AppCompatActivity() {
 
                             if (login_id==loginId){
                                 okay = 1
-                                mDatabase.child("users").child(login_id).child("user_pw").addListenerForSingleValueEvent(
+                                mDatabase.child("users").child(who).child(login_id).child("user_pw").addListenerForSingleValueEvent(
                                     object : ValueEventListener {
                                         override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
                                             //firebase에서 user-pw 가져온다
@@ -132,35 +146,17 @@ class Loginactivity : AppCompatActivity() {
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
-                mDatabase.child("users").child(loginId).child("who").addListenerForSingleValueEvent(
-                    object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
-                            //firebase에서 user-pw 가져온다
-                            var who = dataSnapshot.value.toString()
-
-                            if (who == "보호자") {
-                                val intent=Intent(applicationContext, ParentFirstViewActivity::class.java)
-                                intent.putExtra("id", loginId)
-                                intent.putExtra("who", who)
-                                startActivity(intent)
-                            } else {
-                                //자녀일 경우 보류
-                                val intent=Intent(applicationContext, BridgeActivity::class.java)
-                                intent.putExtra("id", loginId)
-                                intent.putExtra("who", who)
-                                startActivity(intent)
-                            }
-
-                        }
-
-                        override fun onCancelled(databaseError: DatabaseError) {}
-                    })
-
-
-
-
-
-
+                if (who == "보호자") {
+                    val intent=Intent(applicationContext, ParentFirstViewActivity::class.java)
+                    intent.putExtra("id", loginId)
+                    intent.putExtra("who", who)
+                    startActivity(intent)
+                } else {
+                    val intent=Intent(applicationContext, BridgeActivity::class.java)
+                    intent.putExtra("id", loginId)
+                    intent.putExtra("who", who)
+                    startActivity(intent)
+                }
             })
 
         builder.show()

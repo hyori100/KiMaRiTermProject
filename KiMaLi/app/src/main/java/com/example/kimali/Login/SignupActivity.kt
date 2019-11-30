@@ -95,9 +95,12 @@ class SignupActivity : AppCompatActivity(){
     }
 
     //파이어베이스에 데이터 쓰는 메소드
-    private fun writeNewUser(userId: String, user_pw: String?, who: String?, nameText: String?) {
-        val user = User(user_pw, who, nameText)
-        database.child("users").child(userId).setValue(user)
+    private fun writeNewUser(userId: String, user_pw: String?, who: String, nameText: String?) {
+        val user = User(user_pw, nameText)
+
+        database.child("users").child(who).child(userId).setValue(user)
+
+
     }
 
 }
