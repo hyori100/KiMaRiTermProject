@@ -20,6 +20,13 @@
             android:textColor="#000"
             android:layout_weight="1"/>
 
+        <Button
+            android:id="@+id/fix_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.03"
+            android:text="수정완료" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
