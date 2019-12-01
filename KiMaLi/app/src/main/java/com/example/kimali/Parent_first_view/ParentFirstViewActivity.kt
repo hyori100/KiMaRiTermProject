@@ -10,10 +10,12 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.Login.Child
 import com.example.kimali.Login.User
+import com.example.kimali.Parent_missionList
 import com.example.kimali.R
 import com.google.firebase.database.*
 import java.util.*
@@ -68,6 +70,13 @@ class ParentFirstViewActivity : AppCompatActivity() {
             })
 
         listview.adapter = adapter
+        listview.setOnItemClickListener { parent, view, position, id ->
+            val selectedItem = parent.getItemAtPosition(position) as String
+            Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, Parent_missionList::class.java)
+            intent.putExtra("selectedString", selectedItem)
+            this.startActivity(intent)
+        }
 
     }
 
