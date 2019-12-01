@@ -36,6 +36,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
     lateinit var topic: String
     lateinit var adapter: ArrayAdapter<String>
     lateinit var button: Button
+    lateinit var selectItem : String
      var menu_check_position : Int = 0
 
 
@@ -85,20 +86,19 @@ class ParentFirstViewActivity : AppCompatActivity() {
             })
 
         listview.adapter = adapter
-        listview.setOnItemClickListener { parent, view, position, id ->
-            val selectedItem = parent.getItemAtPosition(position) as String
-            Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, Parent_missionList::class.java)
-            intent.putExtra("selectedString", selectedItem)
-            this.startActivity(intent)
-        }
 
         listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val selectItem = parent.getItemAtPosition(position) as String
-            if(menu_check_position == 0)
+            selectItem = parent.getItemAtPosition(position) as String
+            if(menu_check_position == 0) {
                 Toast.makeText(this, selectItem + " 0", Toast.LENGTH_SHORT).show()
-            else if(menu_check_position == 1)
+                val intent = Intent(this, Parent_missionList::class.java)
+                intent.putExtra("selectedString", selectItem)
+                this.startActivity(intent)
+            }
+            else if(menu_check_position == 1) {
                 Toast.makeText(this, selectItem + " 1", Toast.LENGTH_SHORT).show()
+                child_remove()
+            }
         }
 
 
@@ -174,7 +174,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         //tilte 부분 xml
         builder.setTitle("알림")
-        builder.setMessage(name+"님을 자녀로 추가하시겠습니까?");
+        builder.setMessage(name+"님을 추가하시겠습니까?");
 
         //확인버튼
         builder.setPositiveButton("확인",
@@ -183,6 +183,27 @@ class ParentFirstViewActivity : AppCompatActivity() {
                 writeChild()
 
                 adapter.add(name)
+                adapter.notifyDataSetChanged()
+            })
+
+        builder.setNegativeButton("취소",
+            DialogInterface.OnClickListener { dialog, which -> })
+        builder.show()
+    }
+
+    // 자식 지울지 물어보는 알림창
+    fun child_remove() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("알림")
+        builder.setMessage(selectItem+"님을 삭제하시겠습니까?");
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+
+                /// 이부분에 데이터베이스에서도 지워야함
+                adapter.remove(selectItem)
                 adapter.notifyDataSetChanged()
             })
 
@@ -225,7 +246,6 @@ class ParentFirstViewActivity : AppCompatActivity() {
                 child_delete_dialog()
 
             }
-            R.id.modify -> {}
         }
         return super.onOptionsItemSelected(item)
     }
