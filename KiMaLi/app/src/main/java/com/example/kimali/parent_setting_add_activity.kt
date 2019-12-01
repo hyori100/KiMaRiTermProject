@@ -1,14 +1,24 @@
 package com.example.kimali
 
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.Login.User
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 class parent_setting_add_activity : AppCompatActivity() {
+    var money=0
+    var pcTime=0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
@@ -32,16 +42,15 @@ class parent_setting_add_activity : AppCompatActivity() {
         var strDate="date"
         var lastDate="date"
 
-        var money=0
-        var pcTime=0
+
 
         radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.moneyRadioButton -> {
-
+                    setting_money_dialog()
                 }
                 R.id.pcRadioButton -> {
-
+                    setting_pcTime_dialog()
                 }
             }
         })
@@ -133,5 +142,49 @@ class parent_setting_add_activity : AppCompatActivity() {
         val oneMission = OneMission(missionName,mission_message,money,pcTime,deadLineString)
 
         /*database.child("users").child(userId).setValue(user)*/
+    }
+
+    //보상해줄 금액 세팅하기 위한 다이얼로그
+    fun setting_money_dialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        val inflater: LayoutInflater = layoutInflater
+        val view = inflater.inflate(R.layout.money_custom_dialog, null)
+        builder.setView(view)
+        val money_setting = view.findViewById<EditText>(R.id.moneyText)
+
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+                money=Integer.parseInt(money_setting.getText().toString())
+
+            })
+        builder.setNegativeButton("취소",
+            DialogInterface.OnClickListener { dialog, which -> })
+        builder.show()
+
+    }
+
+    //보상해줄 PC사용시간을 세팅하기 위한 다이얼로그
+    fun setting_pcTime_dialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        val inflater: LayoutInflater = layoutInflater
+        val view = inflater.inflate(R.layout.pctime_custom_dialog, null)
+        builder.setView(view)
+        val pc_setting = view.findViewById<EditText>(R.id.pcText)
+
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+                pcTime=Integer.parseInt(pc_setting.getText().toString())
+
+            })
+        builder.setNegativeButton("취소",
+            DialogInterface.OnClickListener { dialog, which -> })
+        builder.show()
+
     }
 }

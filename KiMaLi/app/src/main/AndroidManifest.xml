@@ -18,6 +18,7 @@
         <activity android:name=".Parent_first_view.ParentFirstViewActivity"></activity>
         <activity android:name=".Login.SignupActivity"></activity>
         <activity android:name=".parent_listview_activity"></activity>
+        <activity android:name=".parent_setting_add_activity"></activity>
 
         <activity android:name=".Login.Loginactivity">
 
