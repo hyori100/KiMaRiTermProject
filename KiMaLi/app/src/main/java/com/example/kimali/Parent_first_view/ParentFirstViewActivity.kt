@@ -15,10 +15,12 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kimali.BridgeActivity
 import com.example.kimali.Login.Child
 import com.example.kimali.Login.User
 import com.example.kimali.Parent_missionList
 import com.example.kimali.R
+import com.example.kimali.compensation.compensation_firstActivity
 import com.google.firebase.database.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -91,7 +93,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
             selectItem = parent.getItemAtPosition(position) as String
             if(menu_check_position == 0) {
                 Toast.makeText(this, selectItem + " 0", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, Parent_missionList::class.java)
+                val intent = Intent(this, BridgeActivity::class.java)
                 intent.putExtra("selectedString", selectItem)
                 this.startActivity(intent)
             }
