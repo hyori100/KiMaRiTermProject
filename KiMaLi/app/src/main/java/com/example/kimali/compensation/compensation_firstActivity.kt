@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import com.example.kimali.BridgeActivity
+import com.example.kimali.Login.Loginactivity
 import com.example.kimali.Parent_missionList
 import com.example.kimali.R
 import com.example.kimali.text
@@ -40,5 +42,10 @@ class compensation_firstActivity : AppCompatActivity() {
 
 
 
+    }
+    override fun onBackPressed() {
+        val intent = Intent(this, BridgeActivity::class.java)
+        intent.putExtra("selectedString", text)
+        this.startActivity(intent)
     }
 }

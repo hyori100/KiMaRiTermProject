@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.BridgeActivity
 import com.example.kimali.Login.Child
+import com.example.kimali.Login.Loginactivity
 import com.example.kimali.Login.User
 import com.example.kimali.Parent_missionList
 import com.example.kimali.R
@@ -257,5 +258,28 @@ class ParentFirstViewActivity : AppCompatActivity() {
         childUpdates["/users/보호자/$loginId/children/$name"] = postValues
 
         mDatabase.updateChildren(childUpdates)
+    }
+
+
+    fun logout() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("알림")
+        builder.setMessage("로그아웃 하시겠습니까?")
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+                val intent = Intent(this, Loginactivity::class.java)
+                this.startActivity(intent)
+            })
+
+        builder.setNegativeButton("취소",
+            DialogInterface.OnClickListener { dialog, which -> })
+        builder.show()
+    }
+
+    override fun onBackPressed() {
+        logout()
     }
 }
