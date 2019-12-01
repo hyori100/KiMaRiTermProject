@@ -7,6 +7,10 @@
     tools:context=".compensation.compensation_firstActivity">
 
     <LinearLayout
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -18,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
-            android:background="@drawable/primary_border_fill_login"
+            android:background="@drawable/primary_border_fill_login2"
             android:text="보상금 확인"
             android:textColor="#FFFFFF"
             android:textSize="30dp"
@@ -31,7 +35,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
-            android:background="@drawable/primary_border_fill_login"
+            android:background="@drawable/primary_border_fill_login2"
             android:text="pc사용시간 확인"
             android:textColor="#FFFFFF"
             android:textSize="30dp"
