@@ -15,7 +15,7 @@ class Parent_firstView : AppCompatActivity() {
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_parent_first_view)
 
-        val listview = findViewById(R.id.child_list) as ListView
+        /*val listview = findViewById(R.id.child_list) as ListView
         val adapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1,array)
 
         listview.adapter = adapter
@@ -25,7 +25,7 @@ class Parent_firstView : AppCompatActivity() {
             val intent = Intent(this, Parent_missionList::class.java)
             intent.putExtra("selectedString", selectedItem)
             this.startActivity(intent)
-        }
+        }*/
 
 
     }
