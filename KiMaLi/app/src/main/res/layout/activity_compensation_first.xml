@@ -16,27 +16,27 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/mission_list_btn"
+            android:id="@+id/money_btn"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
             android:background="@drawable/primary_border_fill_login2"
-            android:text="미션 리스트"
+            android:text="보상금 확인"
             android:textColor="#FFFFFF"
             android:textSize="30dp"
             android:textStyle="bold" /> />
 
         <Button
-            android:id="@+id/reward_btn"
+            android:id="@+id/pc_btn"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
             android:background="@drawable/primary_border_fill_login2"
-            android:text="보 상"
+            android:text="pc사용시간 확인"
             android:textColor="#FFFFFF"
             android:textSize="30dp"
             android:textStyle="bold" /> />

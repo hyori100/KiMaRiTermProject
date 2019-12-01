@@ -7,16 +7,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+
+import android.widget.*
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kimali.BridgeActivity
 import com.example.kimali.Login.Child
+import com.example.kimali.Login.Loginactivity
 import com.example.kimali.Login.User
 import com.example.kimali.Parent_missionList
 import com.example.kimali.R
+import com.example.kimali.compensation.compensation_firstActivity
 import com.google.firebase.database.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,7 +38,9 @@ class ParentFirstViewActivity : AppCompatActivity() {
     lateinit var loginId: String
     lateinit var topic: String
     lateinit var adapter: ArrayAdapter<String>
-
+    lateinit var button: Button
+    lateinit var selectItem : String
+     var menu_check_position : Int = 0
 
 
 
@@ -47,6 +54,18 @@ class ParentFirstViewActivity : AppCompatActivity() {
         login_id_list = ArrayList()
         name_list = ArrayList()
         array = ArrayList()
+        // 수정완료 버튼
+        button = findViewById(R.id.fix_button) as Button
+        button.setEnabled(false);
+        button.setVisibility(Button.INVISIBLE);
+
+        button.setOnClickListener {
+            menu_check_position = 0
+            button.setEnabled(false);
+            button.setVisibility(Button.INVISIBLE);
+        }
+
+
 
         val listview = findViewById(R.id.child_list) as ListView
         adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, ArrayList<String>())
@@ -70,13 +89,21 @@ class ParentFirstViewActivity : AppCompatActivity() {
             })
 
         listview.adapter = adapter
-        listview.setOnItemClickListener { parent, view, position, id ->
-            val selectedItem = parent.getItemAtPosition(position) as String
-            Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, Parent_missionList::class.java)
-            intent.putExtra("selectedString", selectedItem)
-            this.startActivity(intent)
+
+        listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            selectItem = parent.getItemAtPosition(position) as String
+            if(menu_check_position == 0) {
+                val intent = Intent(this, BridgeActivity::class.java)
+                intent.putExtra("selectedString", selectItem)
+                this.startActivity(intent)
+            }
+            else if(menu_check_position == 1) {
+                child_remove()
+            }
         }
+
+
+
 
     }
 
@@ -130,6 +157,8 @@ class ParentFirstViewActivity : AppCompatActivity() {
 
     }
 
+
+
     fun id_wrong_dialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         //tilte 부분 xml
@@ -146,7 +175,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         //tilte 부분 xml
         builder.setTitle("알림")
-        builder.setMessage(name+"님을 자녀로 추가하시겠습니까?");
+        builder.setMessage(name+"님을 추가하시겠습니까?");
 
         //확인버튼
         builder.setPositiveButton("확인",
@@ -162,6 +191,46 @@ class ParentFirstViewActivity : AppCompatActivity() {
             DialogInterface.OnClickListener { dialog, which -> })
         builder.show()
     }
+
+    // 자식 지울지 물어보는 알림창
+    fun child_remove() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("알림")
+        builder.setMessage(selectItem+"님을 삭제하시겠습니까?");
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+
+                /// 이부분에 데이터베이스에서도 지워야함
+                adapter.remove(selectItem)
+                adapter.notifyDataSetChanged()
+            })
+
+        builder.setNegativeButton("취소",
+            DialogInterface.OnClickListener { dialog, which -> })
+        builder.show()
+    }
+
+
+    // 자녀를 삭제하기 위한 다이얼로그 창
+    fun child_delete_dialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("알림")
+        builder.setMessage("삭제할 자녀의 이름을 눌러주세요.");
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+                menu_check_position = 1;
+                button.setEnabled(true);
+                button.setVisibility(Button.VISIBLE);
+            })
+        builder.show()
+    }
+
     //메뉴
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_child, menu)
@@ -175,10 +244,9 @@ class ParentFirstViewActivity : AppCompatActivity() {
 
             }
             R.id.delete -> {
-
+                child_delete_dialog()
 
             }
-            R.id.modify -> {}
         }
         return super.onOptionsItemSelected(item)
     }
@@ -190,5 +258,28 @@ class ParentFirstViewActivity : AppCompatActivity() {
         childUpdates["/users/보호자/$loginId/children/$name"] = postValues
 
         mDatabase.updateChildren(childUpdates)
+    }
+
+
+    fun logout() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("알림")
+        builder.setMessage("로그아웃 하시겠습니까?")
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+                val intent = Intent(this, Loginactivity::class.java)
+                this.startActivity(intent)
+            })
+
+        builder.setNegativeButton("취소",
+            DialogInterface.OnClickListener { dialog, which -> })
+        builder.show()
+    }
+
+    override fun onBackPressed() {
+        logout()
     }
 }

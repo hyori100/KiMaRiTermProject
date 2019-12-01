@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class parent_listview_activity : AppCompatActivity() {
@@ -13,6 +14,7 @@ class parent_listview_activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_parent_listview)
+
 
         val okButton=findViewById<Button>(R.id.ok_mission_button)
         val modifyButton=findViewById<Button>(R.id.modify_mission_button)
@@ -38,5 +40,12 @@ class parent_listview_activity : AppCompatActivity() {
         deleteButton.setOnClickListener { view->
 
         }
+
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, Parent_missionList::class.java)
+        intent.putExtra("selectedString", text)
+        this.startActivity(intent)
     }
 }

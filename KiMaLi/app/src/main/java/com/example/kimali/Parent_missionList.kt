@@ -55,8 +55,17 @@ class Parent_missionList : AppCompatActivity() {
             Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, parent_listview_activity::class.java)
             intent.putExtra("position", position)
+            intent.putExtra("selectedString", text)
             this.startActivity(intent)
         }
 
+
+
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, BridgeActivity::class.java)
+        intent.putExtra("selectedString", text)
+        this.startActivity(intent)
     }
 }
