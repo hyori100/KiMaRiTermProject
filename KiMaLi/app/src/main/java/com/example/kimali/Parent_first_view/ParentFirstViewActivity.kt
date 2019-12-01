@@ -92,13 +92,11 @@ class ParentFirstViewActivity : AppCompatActivity() {
         listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             selectItem = parent.getItemAtPosition(position) as String
             if(menu_check_position == 0) {
-                Toast.makeText(this, selectItem + " 0", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, BridgeActivity::class.java)
                 intent.putExtra("selectedString", selectItem)
                 this.startActivity(intent)
             }
             else if(menu_check_position == 1) {
-                Toast.makeText(this, selectItem + " 1", Toast.LENGTH_SHORT).show()
                 child_remove()
             }
         }
