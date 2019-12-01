@@ -4,14 +4,14 @@
 
             <item
                 android:id="@+id/add"
-                    android:title="자식 추가" />
+                    android:title="자녀 추가" />
 
             <item
                 android:id="@+id/delete"
-                android:title="자식 삭제" />
+                android:title="자녀 삭제" />
 
             <item
                 android:id="@+id/modify"
-                android:title="자식 이름변경" />
+                android:title="자녀 이름변경" />
 
 </menu>
