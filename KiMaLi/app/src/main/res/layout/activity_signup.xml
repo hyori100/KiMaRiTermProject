@@ -48,9 +48,10 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:hint="아이디"
-            android:textColorHint="#CECECE"
+
             android:layout_marginTop="20dp"
             android:paddingLeft="15dp"
+            android:textColorHint="#CECECE"
             android:background="@drawable/gray_border_login"
             android:id="@+id/edtSignupID" android:textSize="12dp"/>
         <EditText

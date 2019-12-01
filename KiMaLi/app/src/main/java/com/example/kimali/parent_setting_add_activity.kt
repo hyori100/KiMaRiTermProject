@@ -19,12 +19,14 @@ class parent_setting_add_activity : AppCompatActivity() {
     var money=0
     var pcTime=0
 
+    var deadLineDate=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_parent_adding)
 
-        val missionName = findViewById(R.id.mission_Name_TextView) as EditText
+        val missionName = findViewById(R.id.mission_Name_EditText) as EditText
         val missionMessage = findViewById(R.id.mission_Message_EditText) as EditText
 
         val finishButton=findViewById<Button>(R.id.add_finish_button)
@@ -125,12 +127,13 @@ class parent_setting_add_activity : AppCompatActivity() {
 
         //확인완료 버튼
         finishButton.setOnClickListener { view->
+            deadLineDate=strDate+" ~ "+lastDate
             //한 미션의 데이터 확인을 위한 toast문
             Toast.makeText(applicationContext,missionName.getText().toString()+","+missionMessage.getText().toString()+","+
-                money+","+pcTime+","+strDate+" ~ "+lastDate,Toast.LENGTH_LONG).show()
+                money+","+pcTime+","+deadLineDate,Toast.LENGTH_LONG).show()
 
             writeNewMission(missionName.getText().toString(),missionMessage.getText().toString()
-                ,money,pcTime,strDate+" ~ "+lastDate)
+                ,money,pcTime,deadLineDate)
 
         }
 
