@@ -1,5 +1,6 @@
 package com.example.kimali
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -24,5 +25,18 @@ class parent_listview_activity : AppCompatActivity() {
         val missionMessage=findViewById<TextView>(R.id.mission_Message_textView)
         val missionName=findViewById<TextView>(R.id.mission_Name_TextView)
 
+        okButton.setOnClickListener { view->
+            val intent = Intent(this, Parent_missionList::class.java)
+
+            //여기에 파이어베이스에서 현재 자녀의 이름 가지고오는 코드가 들어가야함..//
+            this.startActivity(intent)
+        }
+        modifyButton.setOnClickListener { view->
+            val intent = Intent(this, this::class.java)
+            this.startActivity(intent)
+        }
+        deleteButton.setOnClickListener { view->
+
+        }
     }
 }
