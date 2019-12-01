@@ -43,9 +43,4 @@ class parent_listview_activity : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        val intent = Intent(this, Parent_missionList::class.java)
-        intent.putExtra("selectedString", text)
-        this.startActivity(intent)
-    }
 }

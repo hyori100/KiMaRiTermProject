@@ -5,13 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import com.example.kimali.BridgeActivity
+import com.example.kimali.*
 import com.example.kimali.Login.Loginactivity
-import com.example.kimali.Parent_missionList
-import com.example.kimali.R
-import com.example.kimali.text
 
 class compensation_firstActivity : AppCompatActivity() {
+    lateinit var text: String
+    lateinit var who: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +18,7 @@ class compensation_firstActivity : AppCompatActivity() {
 
         if (intent.hasExtra("selectedString")) {
             text = intent.getStringExtra("selectedString")
+            who = intent.getStringExtra("who")
             setTitle(text)
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
@@ -30,12 +30,14 @@ class compensation_firstActivity : AppCompatActivity() {
         money_btn.setOnClickListener {
             val intent = Intent(this, compensation_money::class.java)
             intent.putExtra("selectedString", text)
+            intent.putExtra("who",who)
             this.startActivity(intent)
         }
 
         pc_btn.setOnClickListener {
             val intent = Intent(this, compensation_pc::class.java)
             intent.putExtra("selectedString", text)
+            intent.putExtra("who",who)
             this.startActivity(intent)
         }
 
@@ -46,6 +48,7 @@ class compensation_firstActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val intent = Intent(this, BridgeActivity::class.java)
         intent.putExtra("selectedString", text)
+        intent.putExtra("who",who)
         this.startActivity(intent)
     }
 }

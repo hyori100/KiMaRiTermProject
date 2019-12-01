@@ -77,15 +77,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/mission_list"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-        </ListView>
 
 
+            <ListView
+                android:id="@+id/mission_list"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
 
             <Button
                 android:id="@+id/addButton"
@@ -95,6 +95,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/mission_list"
                 android:background="@drawable/primary_border_fill_login"
+                android:textColor = "#ffffff"
                 android:text="추가"
                 android:textSize="15dp" /></RelativeLayout>
 
