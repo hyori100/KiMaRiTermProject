@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ListView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.Login.Child
@@ -31,7 +29,8 @@ class ParentFirstViewActivity : AppCompatActivity() {
     lateinit var loginId: String
     lateinit var topic: String
     lateinit var adapter: ArrayAdapter<String>
-
+    lateinit var button: Button
+     var menu_check_position : Int = 0
 
 
 
@@ -45,6 +44,18 @@ class ParentFirstViewActivity : AppCompatActivity() {
         login_id_list = ArrayList()
         name_list = ArrayList()
         array = ArrayList()
+        // 수정완료 버튼
+        button = findViewById(R.id.fix_button) as Button
+        button.setEnabled(false);
+        button.setVisibility(Button.INVISIBLE);
+
+        button.setOnClickListener {
+            menu_check_position = 0
+            button.setEnabled(false);
+            button.setVisibility(Button.INVISIBLE);
+        }
+
+
 
         val listview = findViewById(R.id.child_list) as ListView
         adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, ArrayList<String>())
@@ -68,6 +79,17 @@ class ParentFirstViewActivity : AppCompatActivity() {
             })
 
         listview.adapter = adapter
+
+        listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val selectItem = parent.getItemAtPosition(position) as String
+            if(menu_check_position == 0)
+                Toast.makeText(this, selectItem + " 0", Toast.LENGTH_SHORT).show()
+            else if(menu_check_position == 1)
+                Toast.makeText(this, selectItem + " 1", Toast.LENGTH_SHORT).show()
+        }
+
+
+
 
     }
 
@@ -121,6 +143,8 @@ class ParentFirstViewActivity : AppCompatActivity() {
 
     }
 
+
+
     fun id_wrong_dialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         //tilte 부분 xml
@@ -153,6 +177,25 @@ class ParentFirstViewActivity : AppCompatActivity() {
             DialogInterface.OnClickListener { dialog, which -> })
         builder.show()
     }
+
+
+    // 자녀를 삭제하기 위한 다이얼로그 창
+    fun child_delete_dialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        //tilte 부분 xml
+        builder.setTitle("알림")
+        builder.setMessage("삭제할 자녀의 이름을 눌러주세요.");
+
+        //확인버튼
+        builder.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, which ->
+                menu_check_position = 1;
+                button.setEnabled(true);
+                button.setVisibility(Button.VISIBLE);
+            })
+        builder.show()
+    }
+
     //메뉴
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_child, menu)
@@ -166,7 +209,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
 
             }
             R.id.delete -> {
-
+                child_delete_dialog()
 
             }
             R.id.modify -> {}
