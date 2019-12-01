@@ -11,10 +11,12 @@ import com.example.kimali.Login.Loginactivity
 import com.example.kimali.Parent_first_view.ParentFirstViewActivity
 import com.example.kimali.compensation.compensation_firstActivity
 
-lateinit var text: String
-lateinit var confirm_1: String
+
 
 class BridgeActivity : AppCompatActivity() {
+    lateinit var text: String
+    lateinit var who: String
+    lateinit var confirm_1: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +26,12 @@ class BridgeActivity : AppCompatActivity() {
         if (intent.hasExtra("id")) {
             confirm_1 = "0";
             text = intent.getStringExtra("id")
+            who = intent.getStringExtra("who")
             setTitle(text)
         } else if(intent.hasExtra("selectedString")){
             confirm_1 = "1";
             text = intent.getStringExtra("selectedString")
+            who = intent.getStringExtra("who")
             setTitle(text)
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
@@ -41,12 +45,14 @@ class BridgeActivity : AppCompatActivity() {
         mission_list_btn.setOnClickListener {
             val intent = Intent(this, Parent_missionList::class.java)
             intent.putExtra("selectedString", text)
+            intent.putExtra("who",who)
             this.startActivity(intent)
         }
 
         reward_btn.setOnClickListener {
             val intent = Intent(this, compensation_firstActivity::class.java)
             intent.putExtra("selectedString", text)
+            intent.putExtra("who",who)
             this.startActivity(intent)
         }
     }
@@ -70,15 +76,7 @@ class BridgeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (confirm_1.equals("0")) {
             logout()
         }
-        else if (confirm_1.equals("1")){
-            val intent = Intent(this, ParentFirstViewActivity::class.java)
-            intent.putExtra("selectedString", text)
-            this.startActivity(intent)
-        }
-        else{}
-    }
 
 }

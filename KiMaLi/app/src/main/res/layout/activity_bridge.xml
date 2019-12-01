@@ -22,9 +22,9 @@
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
-            android:background="@drawable/primary_border_fill_login2"
+            android:background="@drawable/primary_border_fill_login"
             android:text="미션 리스트"
-            android:textColor="#FFFFFF"
+            android:textColor="#FD9A06"
             android:textSize="30dp"
             android:textStyle="bold" /> />
 
@@ -35,9 +35,9 @@
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
-            android:background="@drawable/primary_border_fill_login2"
+            android:background="@drawable/primary_border_fill_login"
             android:text="보 상"
-            android:textColor="#FFFFFF"
+            android:textColor="#FD9A06"
             android:textSize="30dp"
             android:textStyle="bold" /> />
 

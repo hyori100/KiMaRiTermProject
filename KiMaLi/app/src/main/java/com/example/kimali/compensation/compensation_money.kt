@@ -15,13 +15,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.kimali.Login.Loginactivity
 import com.example.kimali.R
-import com.example.kimali.text
 import kotlinx.android.synthetic.main.activity_compensation_money.*
 import kotlinx.android.synthetic.main.activity_parent_listview.*
 
-var money_m : Int = 0
+
 
 class compensation_money : AppCompatActivity() {
+    var money_m : Int = 0
+    lateinit var text: String
+    lateinit var who: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +31,21 @@ class compensation_money : AppCompatActivity() {
 
         if (intent.hasExtra("selectedString")) {
             text = intent.getStringExtra("selectedString")
+            who = intent.getStringExtra("who")
             setTitle(text)
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+        }
+        if(who == "보호자"){
+            use_money.setEnabled(false);
+            use_money.setVisibility(Button.INVISIBLE);
+            use_money_btn.setEnabled(false);
+            use_money_btn.setVisibility(Button.INVISIBLE);
+        }else {
+            use_money.setEnabled(true);
+            use_money.setVisibility(Button.VISIBLE);
+            use_money_btn.setEnabled(true);
+            use_money_btn.setVisibility(Button.VISIBLE);
         }
 
         money_m = 100000 // 이곳에 데이터베이스에 다 더해진 돈을 가지고 와야함

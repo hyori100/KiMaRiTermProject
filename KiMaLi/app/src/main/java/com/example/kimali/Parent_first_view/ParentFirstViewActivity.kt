@@ -49,7 +49,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_parent_first_view)
         mDatabase = FirebaseDatabase.getInstance().reference
         val intent: Intent = getIntent()
-        val who = intent.getStringExtra("who")
+        who = intent.getStringExtra("who")
         loginId = intent.getStringExtra("id")
         login_id_list = ArrayList()
         name_list = ArrayList()
@@ -94,6 +94,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
             selectItem = parent.getItemAtPosition(position) as String
             if(menu_check_position == 0) {
                 val intent = Intent(this, BridgeActivity::class.java)
+                intent.putExtra("who",who)
                 intent.putExtra("selectedString", selectItem)
                 this.startActivity(intent)
             }

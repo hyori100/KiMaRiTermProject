@@ -14,6 +14,9 @@ import java.util.*
 
 class Parent_missionList : AppCompatActivity() {
 
+    lateinit var text : String
+    lateinit var who : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setTheme(R.style.AppTheme_NoActionBar)
@@ -36,13 +39,22 @@ class Parent_missionList : AppCompatActivity() {
         textView3.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)))
 
         if (intent.hasExtra("selectedString")) {
-            val text = intent.getStringExtra("selectedString")
+            text = intent.getStringExtra("selectedString")
+            who = intent.getStringExtra("who")
+
             setTitle(text)
             /* "nameKey"라는 이름의 key에 저장된 값이 있다면
                textView의 내용을 "nameKey" key에서 꺼내온 값으로 바꾼다 */
 
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+        }
+        if(who.equals("보호자")){
+            addButton.setEnabled(true);
+            addButton.setVisibility(Button.VISIBLE);
+        }else {
+            addButton.setEnabled(false);
+            addButton.setVisibility(Button.INVISIBLE);
         }
 
         val array: Array<String> = arrayOf("청소기돌리기","설거지하기","빨래하기")
@@ -66,6 +78,7 @@ class Parent_missionList : AppCompatActivity() {
     override fun onBackPressed() {
         val intent = Intent(this, BridgeActivity::class.java)
         intent.putExtra("selectedString", text)
+        intent.putExtra("who",who)
         this.startActivity(intent)
     }
 }
