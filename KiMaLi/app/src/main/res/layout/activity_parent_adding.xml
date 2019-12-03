@@ -103,6 +103,7 @@
             android:layout_below="@+id/ii"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
+            style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF" android:textStyle="bold"
             android:background="@drawable/primary_border_fill_login"
             android:text="확인완료" />
     </RelativeLayout>

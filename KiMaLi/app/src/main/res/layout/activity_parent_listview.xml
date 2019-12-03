@@ -134,8 +134,7 @@
 
                 <Button
                     android:text="확인완료"
-                    android:textColor="#FD9A06"
-                    android:textStyle="bold"
+                    style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF" android:textStyle="bold"
                     android:background="@drawable/primary_border_fill_login"
 
                     android:layout_width="wrap_content"
