@@ -147,7 +147,7 @@ class parent_setting_add_activity : AppCompatActivity() {
 
             writeNewMission(missionName.getText().toString(),missionMessage.getText().toString()
                 ,money,pcTime,deadLineDate)
-            val intent = Intent(this, parent_listview_activity::class.java)
+            val intent = Intent(this, Parent_missionList::class.java)
             intent.putExtra("who",who)
             intent.putExtra("selectedString", text)
             this.startActivity(intent)
