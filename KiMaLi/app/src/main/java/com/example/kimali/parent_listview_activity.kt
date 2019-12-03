@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 
 class parent_listview_activity : AppCompatActivity() {
 
+    lateinit var text : String
+    lateinit var who : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
@@ -33,12 +36,17 @@ class parent_listview_activity : AppCompatActivity() {
             //여기에 파이어베이스에서 현재 자녀의 이름 가지고오는 코드가 들어가야함..//
             this.startActivity(intent)
         }
+        // 이부분이 수정버튼 클릭시
         modifyButton.setOnClickListener { view->
+            // 여기서 파이어베이스에 현재 바뀐 내용을 저장할 수 있는 코드 작성해야함
             val intent = Intent(this, this::class.java)
             this.startActivity(intent)
         }
+        // 삭제하기 버튼
         deleteButton.setOnClickListener { view->
-
+            // 삭제 시 파이어베이스에서 현재 내용을 전부 다 delete
+            val intent = Intent(this, this::class.java)
+            this.startActivity(intent)
         }
 
     }

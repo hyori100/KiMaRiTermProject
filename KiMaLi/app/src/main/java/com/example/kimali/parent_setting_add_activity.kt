@@ -2,6 +2,7 @@ package com.example.kimali
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,12 +17,24 @@ import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 class parent_setting_add_activity : AppCompatActivity() {
+
+    lateinit var text : String
+    lateinit var who : String
     var money=0
     var pcTime=0
 
     var deadLineDate=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+        if (intent.hasExtra("selectedString")) {
+            text = intent.getStringExtra("selectedString")
+            who = intent.getStringExtra("who")
+            setTitle(text)
+        } else {
+            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+        }
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_parent_adding)
@@ -134,6 +147,11 @@ class parent_setting_add_activity : AppCompatActivity() {
 
             writeNewMission(missionName.getText().toString(),missionMessage.getText().toString()
                 ,money,pcTime,deadLineDate)
+            val intent = Intent(this, parent_listview_activity::class.java)
+            intent.putExtra("who",who)
+            intent.putExtra("selectedString", text)
+            this.startActivity(intent)
+
 
         }
 

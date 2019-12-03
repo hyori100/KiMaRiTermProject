@@ -18,6 +18,7 @@ class Parent_missionList : AppCompatActivity() {
     lateinit var who : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         //setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_parent_mission_list)
@@ -29,6 +30,9 @@ class Parent_missionList : AppCompatActivity() {
         val addButton=findViewById(R.id.addButton) as Button
         addButton.setOnClickListener { view->
             val intent = Intent(this, parent_setting_add_activity::class.java)
+            intent.putExtra("who",who)
+            intent.putExtra("selectedString", text)
+
             //intent.putExtra("selectedString", selectedItem)
             this.startActivity(intent)
         }
@@ -66,6 +70,7 @@ class Parent_missionList : AppCompatActivity() {
             val selectedItem = parent.getItemAtPosition(position) as String
             Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, parent_listview_activity::class.java)
+            intent.putExtra("who",who)
             intent.putExtra("position", position)
             intent.putExtra("selectedString", text)
             this.startActivity(intent)
