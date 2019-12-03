@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_compensation_money.*
 
 class parent_listview_activity : AppCompatActivity() {
 
@@ -21,6 +22,12 @@ class parent_listview_activity : AppCompatActivity() {
             setTitle(text)
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+        }
+
+        if(who == "보호자"){
+            //// 이부분에 보호자 일때는 버튼 세가지 그리고 내용들을 수정할 수 잇게 visible하게 하고
+        }else {
+            /// 이부분은 자녀 화면이니깐 버튼 하나만 냅두고 내용도 수정으로 바꿔주기 그리고 내용을 수정 못하게 invisible하기
         }
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
