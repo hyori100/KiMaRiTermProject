@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="50dp"
+            android:weightSum="1"
             android:orientation="horizontal">
 
             <EditText
@@ -36,14 +37,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:layout_weight="0.6"
                 android:inputType="textPersonName"
                 android:hint="0" />
 
             <Button
                 android:id="@+id/use_money_btn"
+                android:layout_weight="0.4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/primary_border_fill_login2"
+                android:background="@drawable/primary_border_fill_login"
                 style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF" android:textStyle="bold"
                 android:text="사용하기" />
         </LinearLayout>
@@ -60,7 +63,7 @@
                 android:id="@+id/confirm_money_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/primary_border_fill_login2"
+                android:background="@drawable/primary_border_fill_login"
                 style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF" android:textStyle="bold"
                 android:text="확인" />
 

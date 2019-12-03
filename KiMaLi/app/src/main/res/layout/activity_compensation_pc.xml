@@ -43,7 +43,7 @@
                 android:id="@+id/use_pc_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/primary_border_fill_login2"
+                android:background="@drawable/primary_border_fill_login"
                 style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF" android:textStyle="bold"
                 android:text="사용하기" />
         </LinearLayout>
@@ -60,7 +60,7 @@
                 android:id="@+id/confirm_pc_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/primary_border_fill_login2"
+                android:background="@drawable/primary_border_fill_login"
                 style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF" android:textStyle="bold"
                 android:text="확인" />
         </LinearLayout>
