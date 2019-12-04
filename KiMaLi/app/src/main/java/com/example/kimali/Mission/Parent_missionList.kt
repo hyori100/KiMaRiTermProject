@@ -1,4 +1,4 @@
-package com.example.kimali
+package com.example.kimali.Mission
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.kimali.HBaseAdapter
+import com.example.kimali.R
+import com.example.kimali.child_listview_activity
 import kotlinx.android.synthetic.main.activity_parent_mission_list.*
 import java.util.*
 
@@ -70,7 +73,8 @@ class Parent_missionList : AppCompatActivity() {
 
 
         //baseAdapter로 생성
-        mission_list.adapter = HBaseAdapter(this, array, array2)
+        mission_list.adapter =
+            HBaseAdapter(this, array, array2)
         mission_list.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
             Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()

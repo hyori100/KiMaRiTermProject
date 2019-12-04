@@ -12,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.BridgeActivity
 import com.example.kimali.Parent_first_view.ParentFirstViewActivity
-import com.example.kimali.Parent_missionList
 import com.example.kimali.R
 import com.google.firebase.database.*
 

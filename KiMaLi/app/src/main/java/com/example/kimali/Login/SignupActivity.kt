@@ -8,9 +8,7 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kimali.Parent_missionList
 import com.example.kimali.R
-import com.example.kimali.compensation.compensation_money
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
