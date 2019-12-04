@@ -24,6 +24,7 @@ class compensation_money : AppCompatActivity() {
     var money_m : Int = 0
     lateinit var text: String
     lateinit var who: String
+    lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,8 @@ class compensation_money : AppCompatActivity() {
         if (intent.hasExtra("selectedString")) {
             text = intent.getStringExtra("selectedString")
             who = intent.getStringExtra("who")
-            setTitle(text)
+            name = intent.getStringExtra("name")
+            setTitle(name)
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
         }

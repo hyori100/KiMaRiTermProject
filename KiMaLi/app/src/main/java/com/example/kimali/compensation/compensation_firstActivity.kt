@@ -11,6 +11,7 @@ import com.example.kimali.Login.Loginactivity
 class compensation_firstActivity : AppCompatActivity() {
     lateinit var text: String
     lateinit var who: String
+    lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +20,8 @@ class compensation_firstActivity : AppCompatActivity() {
         if (intent.hasExtra("selectedString")) {
             text = intent.getStringExtra("selectedString")
             who = intent.getStringExtra("who")
-            setTitle(text)
+            name = intent.getStringExtra("name")
+            setTitle(name)
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
         }
@@ -31,6 +33,7 @@ class compensation_firstActivity : AppCompatActivity() {
             val intent = Intent(this, compensation_money::class.java)
             intent.putExtra("selectedString", text)
             intent.putExtra("who",who)
+            intent.putExtra("name", name)
             this.startActivity(intent)
         }
 
@@ -38,6 +41,7 @@ class compensation_firstActivity : AppCompatActivity() {
             val intent = Intent(this, compensation_pc::class.java)
             intent.putExtra("selectedString", text)
             intent.putExtra("who",who)
+            intent.putExtra("name", name)
             this.startActivity(intent)
         }
 
@@ -45,10 +49,5 @@ class compensation_firstActivity : AppCompatActivity() {
 
 
     }
-    override fun onBackPressed() {
-        val intent = Intent(this, BridgeActivity::class.java)
-        intent.putExtra("selectedString", text)
-        intent.putExtra("who",who)
-        this.startActivity(intent)
-    }
+
 }

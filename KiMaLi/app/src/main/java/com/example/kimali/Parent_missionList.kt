@@ -16,6 +16,7 @@ class Parent_missionList : AppCompatActivity() {
 
     lateinit var text : String
     lateinit var who : String
+    lateinit var name : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -27,26 +28,29 @@ class Parent_missionList : AppCompatActivity() {
         val textView2 = findViewById(R.id.month_select) as TextView
         val textView3 = findViewById(R.id.day_select) as TextView
 
+        val c=Calendar.getInstance()
+        textView1.setText(Integer.toString(c.get(Calendar.YEAR)))
+        textView2.setText(Integer.toString(c.get(Calendar.MONTH)+1))
+        textView3.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)))
+
         val addButton=findViewById(R.id.addButton) as Button
         addButton.setOnClickListener { view->
             val intent = Intent(this, parent_setting_add_activity::class.java)
             intent.putExtra("who",who)
+            intent.putExtra("name",name)
             intent.putExtra("selectedString", text)
 
             //intent.putExtra("selectedString", selectedItem)
             this.startActivity(intent)
         }
 
-        val c=Calendar.getInstance()
-        textView1.setText(Integer.toString(c.get(Calendar.YEAR)))
-        textView2.setText(Integer.toString(c.get(Calendar.MONTH)+1))
-        textView3.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)))
 
         if (intent.hasExtra("selectedString")) {
             text = intent.getStringExtra("selectedString")
             who = intent.getStringExtra("who")
+            name = intent.getStringExtra("name")
 
-            setTitle(text)
+            setTitle(name)
             /* "nameKey"라는 이름의 key에 저장된 값이 있다면
                textView의 내용을 "nameKey" key에서 꺼내온 값으로 바꾼다 */
 
@@ -80,10 +84,5 @@ class Parent_missionList : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        val intent = Intent(this, BridgeActivity::class.java)
-        intent.putExtra("selectedString", text)
-        intent.putExtra("who",who)
-        this.startActivity(intent)
-    }
+
 }

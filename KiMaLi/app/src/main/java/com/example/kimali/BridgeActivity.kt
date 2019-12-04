@@ -47,6 +47,7 @@ class BridgeActivity : AppCompatActivity() {
         mission_list_btn.setOnClickListener {
             val intent = Intent(this, Parent_missionList::class.java)
             intent.putExtra("selectedString", text)
+            intent.putExtra("name", name)
             intent.putExtra("who",who)
             this.startActivity(intent)
         }
@@ -54,6 +55,7 @@ class BridgeActivity : AppCompatActivity() {
         reward_btn.setOnClickListener {
             val intent = Intent(this, compensation_firstActivity::class.java)
             intent.putExtra("selectedString", text)
+            intent.putExtra("name", name)
             intent.putExtra("who",who)
             this.startActivity(intent)
         }
