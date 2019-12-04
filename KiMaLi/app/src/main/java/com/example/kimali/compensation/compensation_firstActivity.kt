@@ -3,6 +3,7 @@ package com.example.kimali.compensation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import com.example.kimali.*
 
@@ -17,11 +18,13 @@ class compensation_firstActivity : AppCompatActivity() {
         setContentView(R.layout.activity_compensation_first)
 
 
-            userId = intent.getStringExtra("id")
-            who = intent.getStringExtra("who")
-            name = intent.getStringExtra("name")
-            topic = intent.getStringExtra("topic")
-            setTitle(name)
+        userId = intent.getStringExtra("id")
+        who = intent.getStringExtra("who")
+        name = intent.getStringExtra("name")
+        topic = intent.getStringExtra("topic")
+        Log.d("sangmee", topic)
+        setTitle(name)
+
 
 
         var money_btn = findViewById(R.id.money_btn) as Button

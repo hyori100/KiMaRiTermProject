@@ -38,7 +38,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
     lateinit var who : String
     lateinit var userId: String
     lateinit var name: String
-    lateinit var topic: String
+    var topic: String = ""
 
     var menu_check_position : Int = 0
 
@@ -93,7 +93,16 @@ class ParentFirstViewActivity : AppCompatActivity() {
 
         listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             selectItem = parent.getItemAtPosition(position) as String
-            topic =""
+            Log.d("sangmee", selectItem)
+            mDatabase.child("users").child(who).child(userId).child("children").child(selectItem).child("topic").addListenerForSingleValueEvent(
+                object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
+                        topic = dataSnapshot.value.toString()
+                        Log.d("sangmee", topic)
+                    }
+                    override fun onCancelled(databaseError: DatabaseError) {}
+
+                })
             if(menu_check_position == 0) {
                 val intent = Intent(this, BridgeActivity::class.java)
                 intent.putExtra("who",who)

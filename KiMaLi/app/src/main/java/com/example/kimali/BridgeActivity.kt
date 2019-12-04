@@ -3,6 +3,7 @@ package com.example.kimali
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import com.example.kimali.compensation.compensation_firstActivity
 
@@ -25,6 +26,7 @@ class BridgeActivity : AppCompatActivity() {
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
+        Log.d("sangmee", topic)
         setTitle(name)
 
         var mission_list_btn = findViewById(R.id.mission_list_btn) as Button
