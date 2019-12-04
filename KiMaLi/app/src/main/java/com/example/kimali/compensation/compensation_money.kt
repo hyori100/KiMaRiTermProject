@@ -74,6 +74,7 @@ class compensation_money : AppCompatActivity() {
         confirm_money_btn.setOnClickListener {
             val intent = Intent(this, compensation_firstActivity::class.java)
             intent.putExtra("selectedString", text)
+            intent.putExtra("who",who)
             this.startActivity(intent)
         }
     }

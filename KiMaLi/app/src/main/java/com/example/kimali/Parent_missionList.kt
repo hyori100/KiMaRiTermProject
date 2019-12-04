@@ -73,11 +73,20 @@ class Parent_missionList : AppCompatActivity() {
         mission_list.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
             Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, parent_listview_activity::class.java)
-            intent.putExtra("who",who)
-            intent.putExtra("position", position)
-            intent.putExtra("selectedString", text)
-            this.startActivity(intent)
+            if(who=="보호자") {
+                val intent = Intent(this, parent_listview_activity::class.java)
+                intent.putExtra("who", who)
+                intent.putExtra("position", position)
+                intent.putExtra("selectedString", text)
+                this.startActivity(intent)
+            }
+            else {
+                val intent = Intent(this, child_listview_activity::class.java)
+                intent.putExtra("who", who)
+                intent.putExtra("position", position)
+                intent.putExtra("selectedString", text)
+                this.startActivity(intent)
+            }
         }
 
 
