@@ -16,6 +16,7 @@ import com.example.kimali.compensation.compensation_firstActivity
 class BridgeActivity : AppCompatActivity() {
     lateinit var text: String
     lateinit var who: String
+    lateinit var name: String
     lateinit var confirm_1: String
 
 
@@ -27,7 +28,8 @@ class BridgeActivity : AppCompatActivity() {
             confirm_1 = "0";
             text = intent.getStringExtra("id")
             who = intent.getStringExtra("who")
-            setTitle(text)
+            name = intent.getStringExtra("name")
+            setTitle(name)
         } else if(intent.hasExtra("selectedString")){
             confirm_1 = "1";
             text = intent.getStringExtra("selectedString")
@@ -57,26 +59,5 @@ class BridgeActivity : AppCompatActivity() {
         }
     }
 
-    fun logout() {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        //tilte 부분 xml
-        builder.setTitle("알림")
-        builder.setMessage("로그아웃 하시겠습니까?")
-
-        //확인버튼
-        builder.setPositiveButton("확인",
-            DialogInterface.OnClickListener { dialog, which ->
-                val intent = Intent(this, Loginactivity::class.java)
-                this.startActivity(intent)
-            })
-
-        builder.setNegativeButton("취소",
-            DialogInterface.OnClickListener { dialog, which -> })
-        builder.show()
-    }
-
-    override fun onBackPressed() {
-            logout()
-        }
 
 }

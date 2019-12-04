@@ -25,6 +25,7 @@ class Loginactivity : AppCompatActivity() {
     lateinit var loginPw: String
     var okay: Int = 0
     var who="보호자"
+    lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +74,8 @@ class Loginactivity : AppCompatActivity() {
                             Log.d("sangmin", login_id)
                             login_id_list.add(login_id)
                         }
+                        name = dataSnapshot.child(loginId).child("nameText").value.toString()
+
                         //입력한 id와 데이터베이스 user_id 비교
                         for(login_id in login_id_list){
 
@@ -141,11 +144,13 @@ class Loginactivity : AppCompatActivity() {
                     val intent=Intent(applicationContext, ParentFirstViewActivity::class.java)
                     intent.putExtra("id", loginId)
                     intent.putExtra("who", who)
+                    intent.putExtra("name", name)
                     startActivity(intent)
                 } else {
                     val intent=Intent(applicationContext, BridgeActivity::class.java)
                     intent.putExtra("id", loginId)
                     intent.putExtra("who", who)
+                    intent.putExtra("name", name)
                     startActivity(intent)
                 }
             })
