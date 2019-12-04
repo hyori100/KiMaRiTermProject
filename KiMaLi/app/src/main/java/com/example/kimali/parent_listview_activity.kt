@@ -8,17 +8,20 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_compensation_money.*
+import java.util.*
 
 class parent_listview_activity : AppCompatActivity() {
 
     lateinit var text : String
     lateinit var who : String
+    lateinit var mission_Name : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         if (intent.hasExtra("selectedString")) {
             text = intent.getStringExtra("selectedString")
             who = intent.getStringExtra("who")
+            mission_Name=intent.getStringExtra("missionName")
             setTitle(text)
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
@@ -40,6 +43,32 @@ class parent_listview_activity : AppCompatActivity() {
 
         val missionMessage=findViewById<TextView>(R.id.mission_Message_textView)
         val missionName=findViewById<TextView>(R.id.mission_Name_TextView)
+
+        //미션명은 listview 자체에서 전달받은 string으로 입력받음
+        missionName.setText(mission_Name)
+
+        ////////////////////////////////////////////////////////////////////////
+        //이곳에서 파베를 불러와야함 하나의 미션 정보를
+        val mission=OneMission("청소리돌리기","안녕",5000,5,"2019-12-28",5)
+
+        //미션 상세내용은 파베에서 불러와야함.
+        missionMessage.setText(mission.mission_message)
+
+        //미션에서의 보상금 money, pcTime도 파베에서 불러와야함.
+        moneyText.setText(Integer.toString(mission.money))
+        pcTimeText.setText(Integer.toString(mission.pcTime))
+
+        //설정된 기간은 현재 날짜와 mission.deadLineString으로 구성된다
+        val lastInt=mission.dday
+
+        val c= Calendar.getInstance()
+
+        var dateString=""
+        dateString+=Integer.toString(c.get(Calendar.YEAR))+"-"
+        dateString+=Integer.toString(c.get(Calendar.MONTH)+1)+"-"
+        dateString+=Integer.toString(c.get(Calendar.DAY_OF_MONTH))
+        deadLineText.setText(dateString+" ~ "+mission.deadLineString)
+
 
         okButton.setOnClickListener { view->
             val intent = Intent(this, Parent_missionList::class.java)

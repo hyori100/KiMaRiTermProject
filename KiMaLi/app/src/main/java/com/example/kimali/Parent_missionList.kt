@@ -62,8 +62,12 @@ class Parent_missionList : AppCompatActivity() {
             addButton.setVisibility(Button.INVISIBLE);
         }
 
+        //이 배열에는 하나의 자식에 추가된 미션들의 이름이 들어온다.
         val array: Array<String> = arrayOf("청소기돌리기","설거지하기","빨래하기")
+
+        //이 배열에는 미션에 해당하는 현재 날짜로부터의 디데이를 가지고온다.
         val array2: Array<Int> = arrayOf(5000,3000,7000)
+
 
         //baseAdapter로 생성
         mission_list.adapter = HBaseAdapter(this, array, array2)
@@ -72,6 +76,7 @@ class Parent_missionList : AppCompatActivity() {
             Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
             if(who=="보호자") {
                 val intent = Intent(this, parent_listview_activity::class.java)
+                intent.putExtra("missionName",selectedItem)
                 intent.putExtra("who", who)
                 intent.putExtra("id", userId)
                 intent.putExtra("name", name)
