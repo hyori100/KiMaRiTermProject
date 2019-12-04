@@ -19,20 +19,21 @@ import kotlinx.android.synthetic.main.activity_compensation_pc.*
 
 class compensation_pc : AppCompatActivity() {
     var pc : Int = 0
-    lateinit var text: String
+    lateinit var userId: String
     lateinit var who: String
+    lateinit var name: String
+    lateinit var topic: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compensation_pc)
 
-        if (intent.hasExtra("selectedString")) {
-            text = intent.getStringExtra("selectedString")
-            who = intent.getStringExtra("who")
-            setTitle(text)
-        } else {
-            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
-        }
+        userId = intent.getStringExtra("id")
+        who = intent.getStringExtra("who")
+        name = intent.getStringExtra("name")
+        topic = intent.getStringExtra("topic")
+        setTitle(name)
+
         if(who == "보호자"){
             use_pc.setEnabled(false);
             use_pc.setVisibility(Button.INVISIBLE);
@@ -67,8 +68,10 @@ class compensation_pc : AppCompatActivity() {
 
         confirm_pc_btn.setOnClickListener {
             val intent = Intent(this, compensation_firstActivity::class.java)
-            intent.putExtra("selectedString", text)
             intent.putExtra("who",who)
+            intent.putExtra("id", userId)
+            intent.putExtra("name", name)
+            intent.putExtra("topic", topic)
             this.startActivity(intent)
         }
     }
