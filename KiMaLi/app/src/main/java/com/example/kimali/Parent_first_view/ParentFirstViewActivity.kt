@@ -12,16 +12,11 @@ import android.widget.*
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.BridgeActivity
-import com.example.kimali.Login.Child
 import com.example.kimali.Login.Loginactivity
-import com.example.kimali.Login.User
-import com.example.kimali.Parent_missionList
 import com.example.kimali.R
-import com.example.kimali.compensation.compensation_firstActivity
 import com.google.firebase.database.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -29,18 +24,23 @@ import kotlin.collections.ArrayList
 class ParentFirstViewActivity : AppCompatActivity() {
     lateinit var array: ArrayList<String>
     private lateinit var mDatabase: DatabaseReference
-    lateinit var who : String
+
     var okay: Int = 0
     lateinit var login_id_list: ArrayList<String>
     lateinit var name_list: ArrayList<String>
     lateinit var child_id: String
-    lateinit var name: String
-    lateinit var loginId: String
-    lateinit var topic: String
+    lateinit var child_name: String
+    lateinit var add_topic: String
     lateinit var adapter: ArrayAdapter<String>
     lateinit var button: Button
     lateinit var selectItem : String
-     var menu_check_position : Int = 0
+
+    lateinit var who : String
+    lateinit var userId: String
+    lateinit var name: String
+    lateinit var topic: String
+
+    var menu_check_position : Int = 0
 
 
 
@@ -50,7 +50,8 @@ class ParentFirstViewActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance().reference
         val intent: Intent = getIntent()
         who = intent.getStringExtra("who")
-        loginId = intent.getStringExtra("id")
+        userId = intent.getStringExtra("id")
+        name = intent.getStringExtra("name")
         login_id_list = ArrayList()
         name_list = ArrayList()
         array = ArrayList()
@@ -70,7 +71,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
         val listview = findViewById(R.id.child_list) as ListView
         adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, ArrayList<String>())
 
-        mDatabase.child("users").child(who).child(loginId).child("children").addListenerForSingleValueEvent(
+        mDatabase.child("users").child(who).child(userId).child("children").addListenerForSingleValueEvent(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
                     //firebase에서 user-id 전부 가져온다
@@ -92,10 +93,13 @@ class ParentFirstViewActivity : AppCompatActivity() {
 
         listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             selectItem = parent.getItemAtPosition(position) as String
+            topic =""
             if(menu_check_position == 0) {
                 val intent = Intent(this, BridgeActivity::class.java)
                 intent.putExtra("who",who)
-                intent.putExtra("selectedString", selectItem)
+                intent.putExtra("id", userId)
+                intent.putExtra("name", name)
+                intent.putExtra("topic", topic)
                 this.startActivity(intent)
             }
             else if(menu_check_position == 1) {
@@ -103,12 +107,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
             }
         }
 
-
-
-
     }
-
-
 
     fun add_child_dialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -133,9 +132,9 @@ class ParentFirstViewActivity : AppCompatActivity() {
                                 Log.d("sangmin", login_id)
                                 login_id_list.add(login_id)
                             }
-                            topic = dataSnapshot.child(child_id).child("topic").value.toString()
-                            name = dataSnapshot.child(child_id).child("nameText").value.toString()
-                            Log.d("sangmee", name)
+                            add_topic = dataSnapshot.child(child_id).child("topic").value.toString()
+                            child_name = dataSnapshot.child(child_id).child("nameText").value.toString()
+                            Log.d("sangmee", child_name)
                             for (login_id in login_id_list) {
                                 if (login_id == child_id) {
                                     okay = 1
@@ -176,7 +175,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         //tilte 부분 xml
         builder.setTitle("알림")
-        builder.setMessage(name+"님을 추가하시겠습니까?");
+        builder.setMessage(child_name+"님을 추가하시겠습니까?");
 
         //확인버튼
         builder.setPositiveButton("확인",
@@ -184,7 +183,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
 
                 writeChild()
 
-                adapter.add(name)
+                adapter.add(child_name)
                 adapter.notifyDataSetChanged()
             })
 
@@ -253,10 +252,10 @@ class ParentFirstViewActivity : AppCompatActivity() {
     }
 
     private fun writeChild() {
-        val post = ChildTopic(topic)
+        val post = ChildTopic(add_topic)
         val postValues = post.toMap()
         val childUpdates = HashMap<String, Any>()
-        childUpdates["/users/보호자/$loginId/children/$name"] = postValues
+        childUpdates["/users/보호자/$userId/children/$child_name"] = postValues
 
         mDatabase.updateChildren(childUpdates)
     }

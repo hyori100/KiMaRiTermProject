@@ -22,22 +22,22 @@ import kotlinx.android.synthetic.main.activity_parent_listview.*
 
 class compensation_money : AppCompatActivity() {
     var money_m : Int = 0
-    lateinit var text: String
+    lateinit var userId: String
     lateinit var who: String
     lateinit var name: String
+    lateinit var topic: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compensation_money)
 
-        if (intent.hasExtra("selectedString")) {
-            text = intent.getStringExtra("selectedString")
-            who = intent.getStringExtra("who")
-            name = intent.getStringExtra("name")
-            setTitle(name)
-        } else {
-            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
-        }
+
+        userId = intent.getStringExtra("id")
+        who = intent.getStringExtra("who")
+        name = intent.getStringExtra("name")
+        topic = intent.getStringExtra("topic")
+        setTitle(name)
+
         if(who == "보호자"){
             use_money.setEnabled(false);
             use_money.setVisibility(Button.INVISIBLE);
@@ -73,8 +73,10 @@ class compensation_money : AppCompatActivity() {
 
         confirm_money_btn.setOnClickListener {
             val intent = Intent(this, compensation_firstActivity::class.java)
-            intent.putExtra("selectedString", text)
             intent.putExtra("who",who)
+            intent.putExtra("id", userId)
+            intent.putExtra("name", name)
+            intent.putExtra("topic", topic)
             this.startActivity(intent)
         }
     }
