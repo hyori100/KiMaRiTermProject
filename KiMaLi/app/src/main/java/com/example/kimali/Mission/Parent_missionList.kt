@@ -24,6 +24,8 @@ class Parent_missionList : AppCompatActivity() {
     lateinit var topic: String
     var missionName_list: ArrayList<String>  = ArrayList()
     var deadline_list: ArrayList<String> = ArrayList()
+    lateinit var missionName : String
+    lateinit var deadline : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -59,6 +61,8 @@ class Parent_missionList : AppCompatActivity() {
             intent.putExtra("name",name)
             intent.putExtra("id", userId)
             intent.putExtra("topic", topic)
+            intent.putExtra("missionName_list", missionName_list)
+            intent.putExtra("deadline_list", deadline_list)
 
             this.startActivity(intent)
         }
@@ -79,13 +83,17 @@ class Parent_missionList : AppCompatActivity() {
             val selectedItem = parent.getItemAtPosition(position) as String
             Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
             if(who=="보호자") {
+                missionName= missionName_list.get(position)
+                deadline = deadline_list.get(position)
                 val intent = Intent(this, parent_listview_activity::class.java)
-                intent.putExtra("missionName",selectedItem)
                 intent.putExtra("who", who)
                 intent.putExtra("id", userId)
                 intent.putExtra("name", name)
                 intent.putExtra("topic", topic)
-                intent.putExtra("position", position)
+                intent.putExtra("missionName_list", missionName_list)
+                intent.putExtra("deadline_list", deadline_list)
+                intent.putExtra("missionName", missionName)
+                intent.putExtra("deadline", deadline)
 
                 this.startActivity(intent)
             }
@@ -95,6 +103,8 @@ class Parent_missionList : AppCompatActivity() {
                 intent.putExtra("id", userId)
                 intent.putExtra("name", name)
                 intent.putExtra("topic", topic)
+                intent.putExtra("missionName_list", missionName_list)
+                intent.putExtra("deadline_list", deadline_list)
                 intent.putExtra("position", position)
                 this.startActivity(intent)
             }

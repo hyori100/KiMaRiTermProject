@@ -36,6 +36,8 @@ class parent_setting_add_activity : AppCompatActivity() {
     //디데이 값
     var ddayInt=0
     lateinit var missionName: String
+    var missionName_list: ArrayList<String>  = ArrayList()
+    var deadline_list: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -44,6 +46,8 @@ class parent_setting_add_activity : AppCompatActivity() {
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
+        missionName_list = intent.getStringArrayListExtra("missionName_list")
+        deadline_list = intent.getStringArrayListExtra("deadline_list")
         Log.d("sangmee", topic)
         setTitle(name)
 
@@ -62,8 +66,18 @@ class parent_setting_add_activity : AppCompatActivity() {
         var startMonth=0
         var startDay=0
 
+
+        //현재 날짜를 텍스뷰로 가지고오는 부분
+        val dateView=findViewById<TextView>(R.id.startDateText)
+        val c=Calendar.getInstance()
+        var dateString=""
+        dateString+=Integer.toString(c.get(Calendar.YEAR))+"-"
+        dateString+=Integer.toString(c.get(Calendar.MONTH)+1)+"-"
+        dateString+=Integer.toString(c.get(Calendar.DAY_OF_MONTH))
+        dateView.setText(dateString)
+
         var strDate="date"
-        var lastDate="date"
+        var lastDate=dateString
 
         database = FirebaseDatabase.getInstance().reference
 
@@ -78,14 +92,6 @@ class parent_setting_add_activity : AppCompatActivity() {
             }
         })
 
-        //현재 날짜를 텍스뷰로 가지고오는 부분
-        val dateView=findViewById<TextView>(R.id.startDateText)
-        val c=Calendar.getInstance()
-        var dateString=""
-        dateString+=Integer.toString(c.get(Calendar.YEAR))+"-"
-        dateString+=Integer.toString(c.get(Calendar.MONTH)+1)+"-"
-        dateString+=Integer.toString(c.get(Calendar.DAY_OF_MONTH))+" ~"
-        dateView.setText(dateString)
 
         //설정하게 되는 미션완료날짜
         var lastDateButton=findViewById<View>(R.id.lastDateSettingButton)
@@ -135,13 +141,15 @@ class parent_setting_add_activity : AppCompatActivity() {
                 money+","+pcTime+","+deadLineDate,Toast.LENGTH_LONG).show()
 
             writeNewMission(missionMessage.getText().toString()
-                ,money,pcTime,deadLineDate,ddayInt)
+                ,missionName,money,pcTime,deadLineDate,ddayInt)
 
             val intent = Intent(this, Parent_missionList::class.java)
             intent.putExtra("id", userId)
             intent.putExtra("who", who)
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
+            intent.putExtra("missionName_list", missionName_list)
+            intent.putExtra("deadline_list", deadline_list)
             this.startActivity(intent)
             finish()
 
@@ -175,7 +183,7 @@ class parent_setting_add_activity : AppCompatActivity() {
         }
     }
     //파이어베이스에 데이터 쓰는 메소드
-    private fun writeNewMission(mission_message: String?, money: Int, pcTime: Int,deadline:String?,dday:Int) {
+    private fun writeNewMission(missionName:String ,mission_message: String?, money: Int, pcTime: Int,deadline:String?,dday:Int) {
         val oneMission = OneMission(
             mission_message,
             money,
@@ -189,6 +197,7 @@ class parent_setting_add_activity : AppCompatActivity() {
         //oneMission 이라는 클래스 하나에 들어가는 정보 toast문으로 찍기
         Toast.makeText(applicationContext,oneMission.mission_message
                 +","+oneMission.money+","+oneMission.pcTime+","+oneMission.deadLineString+","+oneMission.dday,Toast.LENGTH_LONG).show()
+
 
         /*database.child("users").child(userId).setValue(user)*/
     }
