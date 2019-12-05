@@ -18,8 +18,8 @@ class BridgeActivity : AppCompatActivity() {
     lateinit var name: String
     lateinit var userId: String
     lateinit var topic: String
-    lateinit var missionName_list: ArrayList<String>
-    lateinit var deadline_list: ArrayList<String>
+    //lateinit var missionName_list: ArrayList<String>
+    //lateinit var deadline_list: ArrayList<String>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +30,6 @@ class BridgeActivity : AppCompatActivity() {
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
-        mDatabase = FirebaseDatabase.getInstance().reference
-        missionName_list = ArrayList()
-        deadline_list = ArrayList()
 
         Log.d("sangmee", topic)
         setTitle(name)
@@ -40,27 +37,6 @@ class BridgeActivity : AppCompatActivity() {
         var mission_list_btn = findViewById(R.id.mission_list_btn) as Button
         var reward_btn = findViewById(R.id.reward_btn) as Button
 
-        mDatabase.child("mission").child(topic).child("detailmission").addListenerForSingleValueEvent(
-            object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
-                    //firebase에서 user-id 전부 가져온다
-                    for (messageData in dataSnapshot.getChildren()){
-                        var missionName = messageData.key.toString()
-                        Log.d("sangmeeMission", missionName)
-                        missionName_list.add(missionName)
-
-                    }
-                    for (i in missionName_list){
-                        var deadline = dataSnapshot.child(i).child("deadLineString").value.toString()
-                        deadline_list.add(deadline)
-                        Log.d("sangmeeDeadLine", deadline)
-                    }
-
-
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {}
-            })
 
         mission_list_btn.setOnClickListener {
             val intent = Intent(this, MissionList::class.java)
@@ -68,8 +44,8 @@ class BridgeActivity : AppCompatActivity() {
             intent.putExtra("name", name)
             intent.putExtra("who",who)
             intent.putExtra("topic", topic)
-            intent.putExtra("missionName_list", missionName_list)
-            intent.putExtra("deadline_list", deadline_list)
+            //intent.putExtra("missionName_list", missionName_list)
+            //intent.putExtra("deadline_list", deadline_list)
             this.startActivity(intent)
         }
 

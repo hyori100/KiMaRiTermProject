@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:hint="예) 1.5 / 2"
+        android:hint="예) 1 / 2"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:inputType="text"

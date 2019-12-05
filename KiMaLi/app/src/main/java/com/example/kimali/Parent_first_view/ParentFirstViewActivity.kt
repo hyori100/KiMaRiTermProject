@@ -16,8 +16,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.BridgeActivity
 import com.example.kimali.Login.Loginactivity
+import com.example.kimali.Mission.HBaseAdapter
 import com.example.kimali.R
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_mission_list.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -75,28 +77,55 @@ class ParentFirstViewActivity : AppCompatActivity() {
         val listview = findViewById(R.id.child_list) as ListView
         adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, ArrayList<String>())
 
+
         mDatabase.child("users").child(who).child(userId).child("children").addListenerForSingleValueEvent(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
                     //firebase에서 user-id 전부 가져온다
-                    adapter.clear()
+
                     for (messageData in dataSnapshot.getChildren()){
                         var child = messageData.key.toString()
                         Log.d("sangmin", child)
                         name_list.add(child)
                         adapter.add(child)
+
                     }
                     for (i in name_list){
                         topic = dataSnapshot.child(i).child("topic").value.toString()
                         topic_list.add(topic)
                         Log.d("sangmee", topic)
                     }
-
-                    adapter.notifyDataSetChanged()
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
+
+        mDatabase.child("users").child(who).child(userId).child("children").addChildEventListener(object :ChildEventListener{
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                adapter.notifyDataSetChanged()
+            }
+
+        })
+
+
+
 
         listview.adapter = adapter
 
@@ -112,6 +141,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
                 this.startActivity(intent)
             }
             else if(menu_check_position == 1) {
+                selectItem = name_list.get(position)
                 child_remove()
             }
         }
@@ -193,7 +223,6 @@ class ParentFirstViewActivity : AppCompatActivity() {
                 writeChild()
 
                 adapter.add(child_name)
-                adapter.notifyDataSetChanged()
             })
 
         builder.setNegativeButton("취소",
@@ -213,6 +242,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
             DialogInterface.OnClickListener { dialog, which ->
 
                 /// 이부분에 데이터베이스에서도 지워야함
+                mDatabase.child("users").child(who).child(userId).child("children").child(selectItem).setValue(null)
                 adapter.remove(selectItem)
                 adapter.notifyDataSetChanged()
             })

@@ -15,8 +15,7 @@ class ChildDetailMission : AppCompatActivity() {
     lateinit var name: String
     lateinit var topic: String
 
-    var missionName_list: ArrayList<String> = ArrayList()
-    var deadline_list: ArrayList<String> = ArrayList()
+
 
     lateinit var missionName : String
     lateinit var deadline : String
@@ -34,8 +33,7 @@ class ChildDetailMission : AppCompatActivity() {
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
-        missionName_list = intent.getStringArrayListExtra("missionName_list")
-        deadline_list = intent.getStringArrayListExtra("deadline_list")
+
         missionName = intent.getStringExtra("missionName")
         deadline = intent.getStringExtra("deadline")
         mission_message = intent.getStringExtra("mission_message")
@@ -74,8 +72,7 @@ class ChildDetailMission : AppCompatActivity() {
             intent.putExtra("who", who)
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
-            intent.putExtra("deadline_list", deadline_list)
-            intent.putExtra("missionName_list", missionName_list)
+
             this.startActivity(intent)
             finish()
         }

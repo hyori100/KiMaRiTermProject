@@ -3,6 +3,7 @@ package com.example.kimali.Mission
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -44,8 +45,7 @@ class MissionList : AppCompatActivity() {
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
-        missionName_list = intent.getStringArrayListExtra("missionName_list")
-        deadline_list = intent.getStringArrayListExtra("deadline_list")
+
         mDatabase = FirebaseDatabase.getInstance().reference
 
         setTitle(name)
@@ -68,9 +68,6 @@ class MissionList : AppCompatActivity() {
             intent.putExtra("name",name)
             intent.putExtra("id", userId)
             intent.putExtra("topic", topic)
-            intent.putExtra("missionName_list", missionName_list)
-            intent.putExtra("deadline_list", deadline_list)
-
             this.startActivity(intent)
         }
 
@@ -81,6 +78,62 @@ class MissionList : AppCompatActivity() {
             addButton.setEnabled(false);
             addButton.setVisibility(Button.INVISIBLE);
         }
+
+        mDatabase.child("mission").child(topic).child("detailmission").addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
+                    //firebase에서 user-id 전부 가져온다
+                    for (messageData in dataSnapshot.getChildren()){
+                        var missionName = messageData.key.toString()
+                        Log.d("sangmeeMission", missionName)
+                        missionName_list.add(missionName)
+
+                    }
+                    for (i in missionName_list){
+                        var deadline = dataSnapshot.child(i).child("deadLineString").value.toString()
+                        deadline_list.add(deadline)
+                        Log.d("sangmeeDeadLine", deadline)
+                    }
+
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+
+        mDatabase.child("mission").child(topic).child("detailmission").addChildEventListener(object :ChildEventListener{
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                mission_list.adapter =
+                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                mission_list.adapter =
+                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+            }
+
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                mission_list.adapter =
+                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                mission_list.adapter =
+                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                mission_list.adapter =
+                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+            }
+
+        })
+
+
+
+
+
 
         mDatabase.child("mission").child(topic).child("detailmission").addListenerForSingleValueEvent(
             object : ValueEventListener {
@@ -121,15 +174,12 @@ class MissionList : AppCompatActivity() {
                 intent.putExtra("id", userId)
                 intent.putExtra("name", name)
                 intent.putExtra("topic", topic)
-                intent.putExtra("missionName_list", missionName_list)
-                intent.putExtra("deadline_list", deadline_list)
+
                 intent.putExtra("missionName", missionName)
                 intent.putExtra("deadline", deadline)
                 intent.putExtra("mission_message", mission_message)
                 intent.putExtra("money", money)
                 intent.putExtra("pcTime", pcTime)
-                intent.putExtra("money_list", money_list)
-                intent.putExtra("pcTime_list", pcTime_list)
 
                 this.startActivity(intent)
             }
@@ -143,15 +193,12 @@ class MissionList : AppCompatActivity() {
                 intent.putExtra("id", userId)
                 intent.putExtra("name", name)
                 intent.putExtra("topic", topic)
-                intent.putExtra("missionName_list", missionName_list)
-                intent.putExtra("deadline_list", deadline_list)
+
                 intent.putExtra("missionName", missionName)
                 intent.putExtra("deadline", deadline)
                 intent.putExtra("mission_message", mission_message)
                 intent.putExtra("money", money)
                 intent.putExtra("pcTime", pcTime)
-                intent.putExtra("money_list", money_list)
-                intent.putExtra("pcTime_list", pcTime_list)
                 this.startActivity(intent)
             }
         }

@@ -4,7 +4,7 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-data class Moneys(
+data class Moneys_DB(
 
     var moneys: String? = ""
 )

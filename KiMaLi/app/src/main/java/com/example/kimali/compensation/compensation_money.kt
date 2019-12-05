@@ -13,29 +13,39 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.example.kimali.Login.InitMoney_DB
+import com.example.kimali.Login.InitPcTime_DB
 import com.example.kimali.Login.Loginactivity
 import com.example.kimali.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_compensation_money.*
 import kotlinx.android.synthetic.main.activity_detail_mission.*
-
+import java.util.HashMap
 
 
 class compensation_money : AppCompatActivity() {
-    var money_m : Int = 0
+    var money_m = 0
+    lateinit var money_s: String
     lateinit var userId: String
     lateinit var who: String
     lateinit var name: String
     lateinit var topic: String
+    private lateinit var database: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compensation_money)
+        database = FirebaseDatabase.getInstance().reference
 
 
         userId = intent.getStringExtra("id")
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
+        money_s = intent.getStringExtra("total_money")
+        money_m = money_s.toInt()
         setTitle(name)
 
         if(who == "보호자"){
@@ -50,7 +60,7 @@ class compensation_money : AppCompatActivity() {
             use_money_btn.setVisibility(Button.VISIBLE);
         }
 
-        money_m = 100000 // 이곳에 데이터베이스에 다 더해진 돈을 가지고 와야함
+
 
         var money_text = findViewById(R.id.money_text) as TextView
         var use_money = findViewById(R.id.use_money) as EditText
@@ -103,6 +113,7 @@ class compensation_money : AppCompatActivity() {
             builder.setPositiveButton("확인",
                 DialogInterface.OnClickListener { dialog, which ->
                     money_m = money_m - i  // 여기서 다시 파이어베이스에 저장해줘야함
+                    writeChild()
                     money_text.setText("총 보상 금액 : " + money_m + " 원")
                     use_money.setText("")
                 })
@@ -124,6 +135,13 @@ class compensation_money : AppCompatActivity() {
         }
     }
 
+    private fun writeChild() {
+        val post = ModifyMoney_DB(money_m.toString())
+        val postValues = post.toMap()
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["/mission/$topic/total_money"] = postValues
 
+        database.updateChildren(childUpdates)
+    }
 
 }

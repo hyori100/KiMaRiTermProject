@@ -8,12 +8,9 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kimali.Mission.Moneys
-import com.example.kimali.Mission.PcTimes
 import com.example.kimali.R
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_detail_mission.*
 import java.util.*
 
 class SignupActivity : AppCompatActivity(){
@@ -22,8 +19,8 @@ class SignupActivity : AppCompatActivity(){
     lateinit var signupPwText: String
     lateinit var nameText: String
     lateinit var topic: String
-    val money = InitMoney("0")
-    val pcTime ="0.0"
+    val money = InitMoney_DB("0")
+    val pcTime ="0"
 
     var who="보호자"
 
@@ -106,7 +103,7 @@ class SignupActivity : AppCompatActivity(){
 
     //파이어베이스에 데이터 쓰는 메소드
     private fun writeNewUser(userId: String, user_pw: String?, who: String, nameText: String?, topic: String) {
-        val user = User(user_pw, nameText)
+        val user = User_DB(user_pw, nameText)
 
         val child_user = Child(user_pw, nameText, topic)
         if(who == "보호자"){
@@ -121,7 +118,7 @@ class SignupActivity : AppCompatActivity(){
     }
 
     private fun writeChild() {
-        val post = InitPcTime(pcTime)
+        val post = InitPcTime_DB(pcTime)
         val postValues = post.toMap()
         val childUpdates = HashMap<String, Any>()
         childUpdates["/mission/$topic/total_pcTime"] = postValues

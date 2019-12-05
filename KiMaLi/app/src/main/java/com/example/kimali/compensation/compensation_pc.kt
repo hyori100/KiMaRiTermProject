@@ -11,10 +11,13 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.example.kimali.Login.InitPcTime_DB
 import com.example.kimali.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_compensation_money.*
 import kotlinx.android.synthetic.main.activity_compensation_pc.*
-
+import java.util.HashMap
 
 
 class compensation_pc : AppCompatActivity() {
@@ -23,6 +26,8 @@ class compensation_pc : AppCompatActivity() {
     lateinit var who: String
     lateinit var name: String
     lateinit var topic: String
+    private lateinit var database: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +37,10 @@ class compensation_pc : AppCompatActivity() {
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
+        pc = intent.getStringExtra("total_pcTime").toInt()
         setTitle(name)
+        database = FirebaseDatabase.getInstance().reference
+
 
         if(who == "보호자"){
             use_pc.setEnabled(false);
@@ -46,7 +54,6 @@ class compensation_pc : AppCompatActivity() {
             use_pc_btn.setVisibility(Button.VISIBLE);
         }
 
-         pc = 9  // 이곳에 데이터베이스에 다 더해진 pc 사용 시간을 가지고 와야함
 
         var pc_text = findViewById(R.id.pc_text) as TextView
         var use_pc = findViewById(R.id.use_pc) as EditText
@@ -96,6 +103,7 @@ class compensation_pc : AppCompatActivity() {
             builder.setPositiveButton("확인",
                 DialogInterface.OnClickListener { dialog, which ->
                     pc = pc - i  // 여기서 다시 파이어베이스에 저장해줘야함
+                    writeChild()
                     pc_text.setText("pc 사용 가능 시간 : " + pc + " 시간")
                     use_pc.setText("")
                 })
@@ -115,5 +123,14 @@ class compensation_pc : AppCompatActivity() {
                 })
             builder.show()
         }
+    }
+
+    private fun writeChild() {
+        val post = InitPcTime_DB(pc.toString())
+        val postValues = post.toMap()
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["/mission/$topic/total_pcTime"] = postValues
+
+        database.updateChildren(childUpdates)
     }
 }
