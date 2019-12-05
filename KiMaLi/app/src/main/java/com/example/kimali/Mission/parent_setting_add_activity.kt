@@ -24,8 +24,8 @@ class parent_setting_add_activity : AppCompatActivity() {
     lateinit var who: String
     lateinit var name: String
     lateinit var topic: String
-    var money=0
-    var pcTime=0
+    var money: String="0"
+    var pcTime = "0"
 
     var lastYear=0
     var lastMonth=0
@@ -140,8 +140,8 @@ class parent_setting_add_activity : AppCompatActivity() {
             Toast.makeText(applicationContext,missionName+","+missionMessage.getText().toString()+","+
                 money+","+pcTime+","+deadLineDate,Toast.LENGTH_LONG).show()
 
-            writeNewMission(missionMessage.getText().toString()
-                ,missionName,money,pcTime,deadLineDate,ddayInt)
+            writeNewMission(missionName, missionMessage.getText().toString()
+                ,money,pcTime,deadLineDate,ddayInt)
 
             val intent = Intent(this, Parent_missionList::class.java)
             intent.putExtra("id", userId)
@@ -183,7 +183,7 @@ class parent_setting_add_activity : AppCompatActivity() {
         }
     }
     //파이어베이스에 데이터 쓰는 메소드
-    private fun writeNewMission(missionName:String ,mission_message: String?, money: Int, pcTime: Int,deadline:String?,dday:Int) {
+    private fun writeNewMission(missionName:String ,mission_message: String?, money: String?, pcTime: String?,deadline:String?,dday:Int) {
         val oneMission = OneMission(
             mission_message,
             money,
@@ -215,7 +215,7 @@ class parent_setting_add_activity : AppCompatActivity() {
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
-                money=Integer.parseInt(money_setting.getText().toString())
+                money=money_setting.getText().toString()
 
             })
         builder.setNegativeButton("취소",
@@ -237,7 +237,7 @@ class parent_setting_add_activity : AppCompatActivity() {
         //확인버튼
         builder.setPositiveButton("확인",
             DialogInterface.OnClickListener { dialog, which ->
-                pcTime=Integer.parseInt(pc_setting.getText().toString())
+                pcTime=pc_setting.getText().toString()
 
             })
         builder.setNegativeButton("취소",
