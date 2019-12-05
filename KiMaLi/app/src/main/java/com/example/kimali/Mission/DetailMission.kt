@@ -25,7 +25,7 @@ class DetailMission : AppCompatActivity() {
     lateinit var money: String
     lateinit var pcTime: String
     var total_money = 0
-    var total_pcTime = 0.0
+    var total_pcTime = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -73,7 +73,7 @@ class DetailMission : AppCompatActivity() {
 
 
                         total_money = dataSnapshot.child("total_money").child("moneys").value.toString().toInt()
-                        total_pcTime = dataSnapshot.child("total_pcTime").child("pcTimes").value.toString().toDouble()
+                        total_pcTime = dataSnapshot.child("total_pcTime").child("pcTimes").value.toString().toInt()
                     Log.d("sangmeeTotalMoney", total_money.toString())
                     Log.d("sangmeeTatalPCTime", total_pcTime.toString())
 
@@ -94,7 +94,7 @@ class DetailMission : AppCompatActivity() {
 
         okButton.setOnClickListener { view->
             total_money+=money.toInt()
-            total_pcTime += pcTime.toDouble()
+            total_pcTime += pcTime.toInt()
             writeChild()
             val intent = Intent(this, MissionList::class.java)
             intent.putExtra("id", userId)

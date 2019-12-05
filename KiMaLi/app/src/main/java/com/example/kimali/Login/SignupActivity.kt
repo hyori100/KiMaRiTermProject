@@ -20,7 +20,7 @@ class SignupActivity : AppCompatActivity(){
     lateinit var nameText: String
     lateinit var topic: String
     val money = InitMoney_DB("0")
-    val pcTime ="0.0"
+    val pcTime ="0"
 
     var who="보호자"
 
