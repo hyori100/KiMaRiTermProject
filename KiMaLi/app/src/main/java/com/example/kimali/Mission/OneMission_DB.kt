@@ -4,7 +4,7 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-data class OneMission (
+data class OneMission_DB (
     var mission_message:String?="",
     var money:String?="",
     var pcTime:String?="",

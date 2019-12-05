@@ -36,8 +36,6 @@ class AddMission : AppCompatActivity() {
     //디데이 값
     var ddayInt=0
     lateinit var missionName: String
-    var missionName_list: ArrayList<String>  = ArrayList()
-    var deadline_list: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -46,8 +44,7 @@ class AddMission : AppCompatActivity() {
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
-        missionName_list = intent.getStringArrayListExtra("missionName_list")
-        deadline_list = intent.getStringArrayListExtra("deadline_list")
+
         Log.d("sangmee", topic)
         setTitle(name)
 
@@ -148,8 +145,6 @@ class AddMission : AppCompatActivity() {
             intent.putExtra("who", who)
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
-            intent.putExtra("missionName_list", missionName_list)
-            intent.putExtra("deadline_list", deadline_list)
             this.startActivity(intent)
             finish()
 
@@ -184,7 +179,7 @@ class AddMission : AppCompatActivity() {
     }
     //파이어베이스에 데이터 쓰는 메소드
     private fun writeNewMission(missionName:String ,mission_message: String?, money: String?, pcTime: String?,deadline:String?) {
-        val oneMission = OneMission(
+        val oneMission = OneMission_DB(
             mission_message,
             money,
             pcTime,

@@ -3,6 +3,8 @@ package com.example.kimali.Login
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-data class InitMoney(
-    var moneys: String? = "moneys"
+data class User_DB(
+    var user_pw: String? = "",
+
+    var nameText: String? = ""
 )

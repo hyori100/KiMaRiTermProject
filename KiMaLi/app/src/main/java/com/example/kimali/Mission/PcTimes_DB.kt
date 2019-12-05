@@ -4,7 +4,7 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-data class PcTimes(
+data class PcTimes_DB(
 
     var pcTimes: String? = ""
 )

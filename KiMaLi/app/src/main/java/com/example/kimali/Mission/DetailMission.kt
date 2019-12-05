@@ -26,8 +26,6 @@ class DetailMission : AppCompatActivity() {
     lateinit var mission_message: String
     lateinit var money: String
     lateinit var pcTime: String
-    var money_list: ArrayList<String> = ArrayList()
-    var pcTime_list: ArrayList<String>  = ArrayList()
     var total_money = 0
     var total_pcTime = 0.0
 
@@ -37,20 +35,14 @@ class DetailMission : AppCompatActivity() {
         who = intent.getStringExtra("who")
         name = intent.getStringExtra("name")
         topic = intent.getStringExtra("topic")
-        missionName_list = intent.getStringArrayListExtra("missionName_list")
-        deadline_list = intent.getStringArrayListExtra("deadline_list")
+
         missionName = intent.getStringExtra("missionName")
         deadline = intent.getStringExtra("deadline")
         mission_message = intent.getStringExtra("mission_message")
         money = intent.getStringExtra("money")
         pcTime = intent.getStringExtra("pcTime")
-        money_list = intent.getStringArrayListExtra("money_list")
-        pcTime_list = intent.getStringArrayListExtra("pcTime_list")
+
         mDatabase = FirebaseDatabase.getInstance().reference
-
-
-
-
 
         Log.d("sangmee", topic)
         setTitle(name)
@@ -97,8 +89,7 @@ class DetailMission : AppCompatActivity() {
             intent.putExtra("who", who)
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
-            intent.putExtra("deadline_list", deadline_list)
-            intent.putExtra("missionName_list", missionName_list)
+
             //여기에 파이어베이스에서 현재 자녀의 이름 가지고오는 코드가 들어가야함..//
             this.startActivity(intent)
             finish()
@@ -111,8 +102,7 @@ class DetailMission : AppCompatActivity() {
             intent.putExtra("who", who)
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
-            intent.putExtra("deadline_list", deadline_list)
-            intent.putExtra("missionName_list", missionName_list)
+
             this.startActivity(intent)
         }
         // 삭제하기 버튼
@@ -122,23 +112,22 @@ class DetailMission : AppCompatActivity() {
             intent.putExtra("id", userId)
             intent.putExtra("who", who)
             intent.putExtra("name", name)
-            intent.putExtra("topic", topic)
-            intent.putExtra("deadline_list", deadline_list)
-            intent.putExtra("missionName_list", missionName_list)
+
             this.startActivity(intent)
         }
 
     }
 
     private fun writeChild() {
-        val post1 = Moneys(total_money.toString())
-        val post2 = PcTimes(total_pcTime.toString())
+        val post1 = Moneys_DB(total_money.toString())
+        val post2 = PcTimes_DB(total_pcTime.toString())
         val postValues1 = post1.toMap()
         val postValues2 = post2.toMap()
         val childUpdates1 = HashMap<String, Any>()
         val childUpdates2 = HashMap<String, Any>()
-        childUpdates1["/mission/$topic/moneys"] = postValues1
-        childUpdates2["/mission/$topic/pcTimes"] = postValues2
+        val childUpdates3 = HashMap<String, Any>()
+        childUpdates1["/mission/$topic/total_money/moneys"] = postValues1
+        childUpdates2["/mission/$topic/total_pcTime/pcTimes"] = postValues2
 
         mDatabase.updateChildren(childUpdates1)
         mDatabase.updateChildren(childUpdates2)
