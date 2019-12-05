@@ -17,11 +17,11 @@
         <activity android:name=".compensation.compensation_money" />
         <activity android:name=".compensation.compensation_firstActivity" />
         <activity android:name=".BridgeActivity" />
-        <activity android:name=".Parent_missionList" />
+        <activity android:name=".Mission.Parent_missionList" />
         <activity android:name=".Parent_first_view.ParentFirstViewActivity" />
         <activity android:name=".Login.SignupActivity" />
-        <activity android:name=".parent_listview_activity" />
-        <activity android:name=".parent_setting_add_activity" />
+        <activity android:name=".Mission.parent_listview_activity" />
+        <activity android:name=".Mission.parent_setting_add_activity" />
         <activity android:name=".Login.Loginactivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

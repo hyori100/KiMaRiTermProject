@@ -1,4 +1,4 @@
-package com.example.kimali
+package com.example.kimali.Mission
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
@@ -10,14 +10,20 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kimali.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class parent_setting_add_activity : AppCompatActivity() {
+    private lateinit var database: DatabaseReference
 
-    lateinit var text : String
-    lateinit var who : String
+    lateinit var userId: String
+    lateinit var who: String
+    lateinit var name: String
+    lateinit var topic: String
     var money=0
     var pcTime=0
 
@@ -29,22 +35,27 @@ class parent_setting_add_activity : AppCompatActivity() {
 
     //디데이 값
     var ddayInt=0
+    lateinit var missionName: String
+    var missionName_list: ArrayList<String>  = ArrayList()
+    var deadline_list: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-        if (intent.hasExtra("selectedString")) {
-            text = intent.getStringExtra("selectedString")
-            who = intent.getStringExtra("who")
-            setTitle(text)
-        } else {
-            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
-        }
+        userId = intent.getStringExtra("id")
+        who = intent.getStringExtra("who")
+        name = intent.getStringExtra("name")
+        topic = intent.getStringExtra("topic")
+        missionName_list = intent.getStringArrayListExtra("missionName_list")
+        deadline_list = intent.getStringArrayListExtra("deadline_list")
+        Log.d("sangmee", topic)
+        setTitle(name)
+
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_parent_adding)
 
-        val missionName = findViewById(R.id.mission_Name_EditText) as EditText
+        val missionName_edit = findViewById(R.id.mission_Name_EditText) as EditText
         val missionMessage = findViewById(R.id.mission_Message_EditText) as EditText
 
         val finishButton=findViewById<Button>(R.id.add_finish_button)
@@ -56,11 +67,19 @@ class parent_setting_add_activity : AppCompatActivity() {
         var startDay=0
 
 
+        //현재 날짜를 텍스뷰로 가지고오는 부분
+        val dateView=findViewById<TextView>(R.id.startDateText)
+        val c=Calendar.getInstance()
+        var dateString=""
+        dateString+=Integer.toString(c.get(Calendar.YEAR))+"-"
+        dateString+=Integer.toString(c.get(Calendar.MONTH)+1)+"-"
+        dateString+=Integer.toString(c.get(Calendar.DAY_OF_MONTH))
+        dateView.setText(dateString)
 
         var strDate="date"
-        var lastDate="date"
+        var lastDate=dateString
 
-
+        database = FirebaseDatabase.getInstance().reference
 
         radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -73,14 +92,6 @@ class parent_setting_add_activity : AppCompatActivity() {
             }
         })
 
-        //현재 날짜를 텍스뷰로 가지고오는 부분
-        val dateView=findViewById<TextView>(R.id.startDateText)
-        val c=Calendar.getInstance()
-        var dateString=""
-        dateString+=Integer.toString(c.get(Calendar.YEAR))+"-"
-        dateString+=Integer.toString(c.get(Calendar.MONTH)+1)+"-"
-        dateString+=Integer.toString(c.get(Calendar.DAY_OF_MONTH))+" ~"
-        dateView.setText(dateString)
 
         //설정하게 되는 미션완료날짜
         var lastDateButton=findViewById<View>(R.id.lastDateSettingButton)
@@ -125,16 +136,22 @@ class parent_setting_add_activity : AppCompatActivity() {
         finishButton.setOnClickListener { view->
             deadLineDate=lastDate
             //한 미션의 데이터 확인을 위한 toast문
-            Toast.makeText(applicationContext,missionName.getText().toString()+","+missionMessage.getText().toString()+","+
+            missionName = missionName_edit.text.toString()
+            Toast.makeText(applicationContext,missionName+","+missionMessage.getText().toString()+","+
                 money+","+pcTime+","+deadLineDate,Toast.LENGTH_LONG).show()
 
-            writeNewMission(missionName.getText().toString(),missionMessage.getText().toString()
-                ,money,pcTime,deadLineDate,ddayInt)
+            writeNewMission(missionMessage.getText().toString()
+                ,missionName,money,pcTime,deadLineDate,ddayInt)
 
             val intent = Intent(this, Parent_missionList::class.java)
-            intent.putExtra("who",who)
-            intent.putExtra("selectedString", text)
+            intent.putExtra("id", userId)
+            intent.putExtra("who", who)
+            intent.putExtra("name", name)
+            intent.putExtra("topic", topic)
+            intent.putExtra("missionName_list", missionName_list)
+            intent.putExtra("deadline_list", deadline_list)
             this.startActivity(intent)
+            finish()
 
 
         }
@@ -166,12 +183,21 @@ class parent_setting_add_activity : AppCompatActivity() {
         }
     }
     //파이어베이스에 데이터 쓰는 메소드
-    private fun writeNewMission(missionName: String, mission_message: String?, money: Int, pcTime: Int,deadline:String?,dday:Int) {
-        val oneMission = OneMission(missionName,mission_message,money,pcTime,deadline,dday)
+    private fun writeNewMission(missionName:String ,mission_message: String?, money: Int, pcTime: Int,deadline:String?,dday:Int) {
+        val oneMission = OneMission(
+            mission_message,
+            money,
+            pcTime,
+            deadline,
+            dday
+        )
+
+        database.child("mission").child(topic).child(missionName).setValue(oneMission)
 
         //oneMission 이라는 클래스 하나에 들어가는 정보 toast문으로 찍기
-        Toast.makeText(applicationContext,oneMission.mission_name+","+oneMission.mission_message
+        Toast.makeText(applicationContext,oneMission.mission_message
                 +","+oneMission.money+","+oneMission.pcTime+","+oneMission.deadLineString+","+oneMission.dday,Toast.LENGTH_LONG).show()
+
 
         /*database.child("users").child(userId).setValue(user)*/
     }

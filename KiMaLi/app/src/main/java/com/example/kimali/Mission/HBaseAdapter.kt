@@ -1,18 +1,18 @@
-package com.example.kimali
+package com.example.kimali.Mission
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Button
 import android.widget.TextView
+import com.example.kimali.R
 
 /**
  * Created by hong on 18. 1. 22.
  */
 
-class HBaseAdapter(context: Context,item : Array<String>, item2 : Array<Int>) : BaseAdapter(){
+class HBaseAdapter(context: Context,item : ArrayList<String>, item2 : ArrayList<String>) : BaseAdapter(){
     private val mContext = context
     private val mItem = item
     private val mItem2 = item2
@@ -26,8 +26,8 @@ class HBaseAdapter(context: Context,item : Array<String>, item2 : Array<Int>) : 
             viewHolder.textView2 = view.findViewById(R.id.textView2)
             viewHolder.textView = view.findViewById(R.id.textView)
             view.tag = viewHolder
-            viewHolder.textView.text = mItem[position]
-            viewHolder.textView2.text = mItem2[position].toString()
+            viewHolder.textView.text = mItem.get(position)
+            viewHolder.textView2.text = mItem2.get(position)
             return view
         }else{
             viewHolder = view.tag as ViewHolder
