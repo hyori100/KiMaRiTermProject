@@ -24,8 +24,16 @@ class Parent_missionList : AppCompatActivity() {
     lateinit var topic: String
     var missionName_list: ArrayList<String>  = ArrayList()
     var deadline_list: ArrayList<String> = ArrayList()
+    var mission_message_list: ArrayList<String>  = ArrayList()
+    var money_list: ArrayList<String> = ArrayList()
+    var pcTime_list: ArrayList<String>  = ArrayList()
     lateinit var missionName : String
     lateinit var deadline : String
+    lateinit var mission_message: String
+    lateinit var money: String
+    lateinit var pcTime: String
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -75,6 +83,25 @@ class Parent_missionList : AppCompatActivity() {
             addButton.setVisibility(Button.INVISIBLE);
         }
 
+        mDatabase.child("mission").child(topic).addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
+
+                    for (i in missionName_list){
+                        var mission_message = dataSnapshot.child(i).child("mission_message").value.toString()
+                        var money = dataSnapshot.child(i).child("money").value.toString()
+                        var pcTime = dataSnapshot.child(i).child("pcTime").value.toString()
+                        mission_message_list.add(mission_message)
+                        money_list.add(money)
+                        pcTime_list.add(pcTime)
+                    }
+
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+
 
         //baseAdapter로 생성
         mission_list.adapter =
@@ -82,9 +109,14 @@ class Parent_missionList : AppCompatActivity() {
         mission_list.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
             Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
+            missionName= missionName_list.get(position)
+            deadline = deadline_list.get(position)
+            mission_message = mission_message_list.get(position)
+            money = money_list.get(position)
+            pcTime = pcTime_list.get(position)
+
             if(who=="보호자") {
-                missionName= missionName_list.get(position)
-                deadline = deadline_list.get(position)
+
                 val intent = Intent(this, parent_listview_activity::class.java)
                 intent.putExtra("who", who)
                 intent.putExtra("id", userId)
@@ -94,10 +126,17 @@ class Parent_missionList : AppCompatActivity() {
                 intent.putExtra("deadline_list", deadline_list)
                 intent.putExtra("missionName", missionName)
                 intent.putExtra("deadline", deadline)
+                intent.putExtra("mission_message", mission_message)
+                intent.putExtra("money", money)
+                intent.putExtra("pcTime", pcTime)
 
                 this.startActivity(intent)
             }
             else {
+
+                missionName= missionName_list.get(position)
+                deadline = deadline_list.get(position)
+
                 val intent = Intent(this, child_listview_activity::class.java)
                 intent.putExtra("who", who)
                 intent.putExtra("id", userId)
@@ -105,7 +144,11 @@ class Parent_missionList : AppCompatActivity() {
                 intent.putExtra("topic", topic)
                 intent.putExtra("missionName_list", missionName_list)
                 intent.putExtra("deadline_list", deadline_list)
-                intent.putExtra("position", position)
+                intent.putExtra("missionName", missionName)
+                intent.putExtra("deadline", deadline)
+                intent.putExtra("mission_message", mission_message)
+                intent.putExtra("money", money)
+                intent.putExtra("pcTime", pcTime)
                 this.startActivity(intent)
             }
         }

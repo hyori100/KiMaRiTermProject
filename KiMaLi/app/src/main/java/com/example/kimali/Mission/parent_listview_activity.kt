@@ -7,10 +7,12 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.R
+import com.google.firebase.database.*
 import java.text.FieldPosition
 import java.util.*
 
 class parent_listview_activity : AppCompatActivity() {
+    private lateinit var mDatabase: DatabaseReference
 
     lateinit var userId: String
     lateinit var who: String
@@ -22,8 +24,9 @@ class parent_listview_activity : AppCompatActivity() {
 
     lateinit var missionName : String
     lateinit var deadline : String
-
-
+    lateinit var mission_message: String
+    lateinit var money: String
+    lateinit var pcTime: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -35,6 +38,12 @@ class parent_listview_activity : AppCompatActivity() {
         deadline_list = intent.getStringArrayListExtra("deadline_list")
         missionName = intent.getStringExtra("missionName")
         deadline = intent.getStringExtra("deadline")
+        mission_message = intent.getStringExtra("mission_message")
+        money = intent.getStringExtra("money")
+        pcTime = intent.getStringExtra("pcTime")
+        mDatabase = FirebaseDatabase.getInstance().reference
+
+
 
         Log.d("sangmee", topic)
         setTitle(name)
@@ -56,28 +65,12 @@ class parent_listview_activity : AppCompatActivity() {
         val missionMessage=findViewById<TextView>(R.id.mission_Message_textView)
         val missionName_text=findViewById<TextView>(R.id.mission_Name_TextView)
 
-        //미션명은 listview 자체에서 전달받은 string으로 입력받음
         missionName_text.setText(missionName)
+        missionMessage.setText(mission_message)
+        moneyText.setText(money)
+        pcTimeText.setText(pcTime)
 
-        ////////////////////////////////////////////////////////////////////////
-        //이곳에서 파베를 불러와야함 하나의 미션 정보를
-        val mission= OneMission(
-            "안녕",
-            5000,
-            5,
-            "2019-12-28",
-            5
-        )
 
-        //미션 상세내용은 파베에서 불러와야함.
-        missionMessage.setText(mission.mission_message)
-
-        //미션에서의 보상금 money, pcTime도 파베에서 불러와야함.
-        moneyText.setText(Integer.toString(mission.money))
-        pcTimeText.setText(Integer.toString(mission.pcTime))
-
-        //설정된 기간은 현재 날짜와 mission.deadLineString으로 구성된다
-        val lastInt=mission.dday
 
         val c= Calendar.getInstance()
 
@@ -95,7 +88,7 @@ class parent_listview_activity : AppCompatActivity() {
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
             intent.putExtra("deadline_list", deadline_list)
-            intent.putExtra("missionName", missionName)
+            intent.putExtra("missionName_list", missionName_list)
             //여기에 파이어베이스에서 현재 자녀의 이름 가지고오는 코드가 들어가야함..//
             this.startActivity(intent)
             finish()
@@ -108,6 +101,8 @@ class parent_listview_activity : AppCompatActivity() {
             intent.putExtra("who", who)
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
+            intent.putExtra("deadline_list", deadline_list)
+            intent.putExtra("missionName_list", missionName_list)
             this.startActivity(intent)
         }
         // 삭제하기 버튼
@@ -118,6 +113,8 @@ class parent_listview_activity : AppCompatActivity() {
             intent.putExtra("who", who)
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
+            intent.putExtra("deadline_list", deadline_list)
+            intent.putExtra("missionName_list", missionName_list)
             this.startActivity(intent)
         }
 
