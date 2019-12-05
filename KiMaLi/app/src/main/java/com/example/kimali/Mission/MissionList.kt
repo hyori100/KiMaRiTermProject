@@ -3,18 +3,17 @@ package com.example.kimali.Mission
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.kimali.R
-import com.example.kimali.child_listview_activity
+import com.example.kimali.ChildDetailMission
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_parent_mission_list.*
+import kotlinx.android.synthetic.main.activity_mission_list.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Parent_missionList : AppCompatActivity() {
+class MissionList : AppCompatActivity() {
 
     private lateinit var mDatabase: DatabaseReference
 
@@ -39,7 +38,7 @@ class Parent_missionList : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         //setTheme(R.style.AppTheme_NoActionBar)
-        setContentView(R.layout.activity_parent_mission_list)
+        setContentView(R.layout.activity_mission_list)
 
         userId = intent.getStringExtra("id")
         who = intent.getStringExtra("who")
@@ -64,7 +63,7 @@ class Parent_missionList : AppCompatActivity() {
 
         val addButton=findViewById(R.id.addButton) as Button
         addButton.setOnClickListener { view->
-            val intent = Intent(this, parent_setting_add_activity::class.java)
+            val intent = Intent(this, AddMission::class.java)
             intent.putExtra("who",who)
             intent.putExtra("name",name)
             intent.putExtra("id", userId)
@@ -83,7 +82,7 @@ class Parent_missionList : AppCompatActivity() {
             addButton.setVisibility(Button.INVISIBLE);
         }
 
-        mDatabase.child("mission").child(topic).addListenerForSingleValueEvent(
+        mDatabase.child("mission").child(topic).child("detailmission").addListenerForSingleValueEvent(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
 
@@ -117,7 +116,7 @@ class Parent_missionList : AppCompatActivity() {
 
             if(who=="보호자") {
 
-                val intent = Intent(this, parent_listview_activity::class.java)
+                val intent = Intent(this, DetailMission::class.java)
                 intent.putExtra("who", who)
                 intent.putExtra("id", userId)
                 intent.putExtra("name", name)
@@ -129,6 +128,8 @@ class Parent_missionList : AppCompatActivity() {
                 intent.putExtra("mission_message", mission_message)
                 intent.putExtra("money", money)
                 intent.putExtra("pcTime", pcTime)
+                intent.putExtra("money_list", money_list)
+                intent.putExtra("pcTime_list", pcTime_list)
 
                 this.startActivity(intent)
             }
@@ -137,7 +138,7 @@ class Parent_missionList : AppCompatActivity() {
                 missionName= missionName_list.get(position)
                 deadline = deadline_list.get(position)
 
-                val intent = Intent(this, child_listview_activity::class.java)
+                val intent = Intent(this, ChildDetailMission::class.java)
                 intent.putExtra("who", who)
                 intent.putExtra("id", userId)
                 intent.putExtra("name", name)
@@ -149,6 +150,8 @@ class Parent_missionList : AppCompatActivity() {
                 intent.putExtra("mission_message", mission_message)
                 intent.putExtra("money", money)
                 intent.putExtra("pcTime", pcTime)
+                intent.putExtra("money_list", money_list)
+                intent.putExtra("pcTime_list", pcTime_list)
                 this.startActivity(intent)
             }
         }

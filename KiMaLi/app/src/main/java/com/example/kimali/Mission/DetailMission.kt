@@ -8,10 +8,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.R
 import com.google.firebase.database.*
-import java.text.FieldPosition
 import java.util.*
 
-class parent_listview_activity : AppCompatActivity() {
+class DetailMission : AppCompatActivity() {
     private lateinit var mDatabase: DatabaseReference
 
     lateinit var userId: String
@@ -27,6 +26,10 @@ class parent_listview_activity : AppCompatActivity() {
     lateinit var mission_message: String
     lateinit var money: String
     lateinit var pcTime: String
+    var money_list: ArrayList<String> = ArrayList()
+    var pcTime_list: ArrayList<String>  = ArrayList()
+    var total_money = 0
+    var total_pcTime = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,7 +44,11 @@ class parent_listview_activity : AppCompatActivity() {
         mission_message = intent.getStringExtra("mission_message")
         money = intent.getStringExtra("money")
         pcTime = intent.getStringExtra("pcTime")
+        money_list = intent.getStringArrayListExtra("money_list")
+        pcTime_list = intent.getStringArrayListExtra("pcTime_list")
         mDatabase = FirebaseDatabase.getInstance().reference
+
+
 
 
 
@@ -51,7 +58,7 @@ class parent_listview_activity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
-        setContentView(R.layout.activity_parent_listview)
+        setContentView(R.layout.activity_detail_mission)
 
 
         val okButton=findViewById<Button>(R.id.ok_mission_button)
@@ -82,7 +89,10 @@ class parent_listview_activity : AppCompatActivity() {
 
 
         okButton.setOnClickListener { view->
-            val intent = Intent(this, Parent_missionList::class.java)
+            total_money += money.toInt()
+            total_pcTime += pcTime.toDouble()
+            writeChild()
+            val intent = Intent(this, MissionList::class.java)
             intent.putExtra("id", userId)
             intent.putExtra("who", who)
             intent.putExtra("name", name)
@@ -96,7 +106,7 @@ class parent_listview_activity : AppCompatActivity() {
         // 이부분이 수정버튼 클릭시
         modifyButton.setOnClickListener { view->
             // 여기서 파이어베이스에 현재 바뀐 내용을 저장할 수 있는 코드 작성해야함
-            val intent = Intent(this, Parent_missionList::class.java)
+            val intent = Intent(this, MissionList::class.java)
             intent.putExtra("id", userId)
             intent.putExtra("who", who)
             intent.putExtra("name", name)
@@ -108,7 +118,7 @@ class parent_listview_activity : AppCompatActivity() {
         // 삭제하기 버튼
         deleteButton.setOnClickListener { view->
             // 삭제 시 파이어베이스에서 현재 내용을 전부 다 delete
-            val intent = Intent(this, Parent_missionList::class.java)
+            val intent = Intent(this, MissionList::class.java)
             intent.putExtra("id", userId)
             intent.putExtra("who", who)
             intent.putExtra("name", name)
@@ -118,6 +128,20 @@ class parent_listview_activity : AppCompatActivity() {
             this.startActivity(intent)
         }
 
+    }
+
+    private fun writeChild() {
+        val post1 = Moneys(total_money.toString())
+        val post2 = PcTimes(total_pcTime.toString())
+        val postValues1 = post1.toMap()
+        val postValues2 = post2.toMap()
+        val childUpdates1 = HashMap<String, Any>()
+        val childUpdates2 = HashMap<String, Any>()
+        childUpdates1["/mission/$topic/moneys"] = postValues1
+        childUpdates2["/mission/$topic/pcTimes"] = postValues2
+
+        mDatabase.updateChildren(childUpdates1)
+        mDatabase.updateChildren(childUpdates2)
     }
 
 }

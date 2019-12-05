@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import com.example.kimali.Mission.Parent_missionList
+import com.example.kimali.Mission.MissionList
 import com.example.kimali.compensation.compensation_firstActivity
 import com.google.firebase.database.*
 
@@ -40,7 +40,7 @@ class BridgeActivity : AppCompatActivity() {
         var mission_list_btn = findViewById(R.id.mission_list_btn) as Button
         var reward_btn = findViewById(R.id.reward_btn) as Button
 
-        mDatabase.child("mission").child(topic).addListenerForSingleValueEvent(
+        mDatabase.child("mission").child(topic).child("detailmission").addListenerForSingleValueEvent(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
                     //firebase에서 user-id 전부 가져온다
@@ -63,7 +63,7 @@ class BridgeActivity : AppCompatActivity() {
             })
 
         mission_list_btn.setOnClickListener {
-            val intent = Intent(this, Parent_missionList::class.java)
+            val intent = Intent(this, MissionList::class.java)
             intent.putExtra("id", userId)
             intent.putExtra("name", name)
             intent.putExtra("who",who)

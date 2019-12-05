@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.kimali.Login.Loginactivity
 import com.example.kimali.R
 import kotlinx.android.synthetic.main.activity_compensation_money.*
-import kotlinx.android.synthetic.main.activity_parent_listview.*
+import kotlinx.android.synthetic.main.activity_detail_mission.*
 
 
 

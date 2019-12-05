@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kimali.Mission.Parent_missionList
-import com.google.firebase.database.FirebaseDatabase
+import com.example.kimali.Mission.MissionList
 import java.util.*
 
-class child_listview_activity : AppCompatActivity() {
+class ChildDetailMission : AppCompatActivity() {
 
     lateinit var userId: String
     lateinit var who: String
@@ -30,7 +28,7 @@ class child_listview_activity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
-        setContentView(R.layout.activity_child_listview_activity)
+        setContentView(R.layout.activity_child_detail_mission)
 
         userId = intent.getStringExtra("id")
         who = intent.getStringExtra("who")
@@ -71,7 +69,7 @@ class child_listview_activity : AppCompatActivity() {
 
         okButton.setOnClickListener { view->
             // 여기서 버튼을 누르면 부모에게 알림이 전송될 수 있게 설정해줘야함
-            val intent = Intent(this, Parent_missionList::class.java)
+            val intent = Intent(this, MissionList::class.java)
             intent.putExtra("id", userId)
             intent.putExtra("who", who)
             intent.putExtra("name", name)
