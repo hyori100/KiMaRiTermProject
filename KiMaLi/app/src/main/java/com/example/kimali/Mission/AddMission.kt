@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class parent_setting_add_activity : AppCompatActivity() {
+class AddMission : AppCompatActivity() {
     private lateinit var database: DatabaseReference
 
     lateinit var userId: String
@@ -53,7 +53,7 @@ class parent_setting_add_activity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
-        setContentView(R.layout.activity_parent_adding)
+        setContentView(R.layout.activity_add_mission)
 
         val missionName_edit = findViewById(R.id.mission_Name_EditText) as EditText
         val missionMessage = findViewById(R.id.mission_Message_EditText) as EditText
@@ -141,9 +141,9 @@ class parent_setting_add_activity : AppCompatActivity() {
                 money+","+pcTime+","+deadLineDate,Toast.LENGTH_LONG).show()
 
             writeNewMission(missionName, missionMessage.getText().toString()
-                ,money,pcTime,deadLineDate,ddayInt)
+                ,money,pcTime,deadLineDate)
 
-            val intent = Intent(this, Parent_missionList::class.java)
+            val intent = Intent(this, MissionList::class.java)
             intent.putExtra("id", userId)
             intent.putExtra("who", who)
             intent.putExtra("name", name)
@@ -183,23 +183,17 @@ class parent_setting_add_activity : AppCompatActivity() {
         }
     }
     //파이어베이스에 데이터 쓰는 메소드
-    private fun writeNewMission(missionName:String ,mission_message: String?, money: String?, pcTime: String?,deadline:String?,dday:Int) {
+    private fun writeNewMission(missionName:String ,mission_message: String?, money: String?, pcTime: String?,deadline:String?) {
         val oneMission = OneMission(
             mission_message,
             money,
             pcTime,
-            deadline,
-            dday
+            deadline
         )
-
-        database.child("mission").child(topic).child(missionName).setValue(oneMission)
-
-        //oneMission 이라는 클래스 하나에 들어가는 정보 toast문으로 찍기
-        Toast.makeText(applicationContext,oneMission.mission_message
-                +","+oneMission.money+","+oneMission.pcTime+","+oneMission.deadLineString+","+oneMission.dday,Toast.LENGTH_LONG).show()
-
-
-        /*database.child("users").child(userId).setValue(user)*/
+        val missionValues = oneMission.toMap()
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["/mission/$topic/detailmission/$missionName"] = missionValues
+        database.updateChildren(childUpdates)
     }
 
     //보상해줄 금액 세팅하기 위한 다이얼로그
