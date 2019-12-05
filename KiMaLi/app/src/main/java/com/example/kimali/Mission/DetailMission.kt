@@ -18,8 +18,6 @@ class DetailMission : AppCompatActivity() {
     lateinit var name: String
     lateinit var topic: String
 
-    var missionName_list: ArrayList<String>  = ArrayList()
-    var deadline_list: ArrayList<String> = ArrayList()
 
     lateinit var missionName : String
     lateinit var deadline : String
@@ -69,7 +67,21 @@ class DetailMission : AppCompatActivity() {
         moneyText.setText(money)
         pcTimeText.setText(pcTime)
 
+        mDatabase.child("mission").child(topic).addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
 
+
+                        total_money = dataSnapshot.child("total_money").child("moneys").value.toString().toInt()
+                        total_pcTime = dataSnapshot.child("total_pcTime").child("pcTimes").value.toString().toDouble()
+                    Log.d("sangmeeTotalMoney", total_money.toString())
+                    Log.d("sangmeeTatalPCTime", total_pcTime.toString())
+
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
 
         val c= Calendar.getInstance()
 
@@ -81,7 +93,7 @@ class DetailMission : AppCompatActivity() {
 
 
         okButton.setOnClickListener { view->
-            total_money += money.toInt()
+            total_money+=money.toInt()
             total_pcTime += pcTime.toDouble()
             writeChild()
             val intent = Intent(this, MissionList::class.java)
@@ -126,8 +138,9 @@ class DetailMission : AppCompatActivity() {
         val childUpdates1 = HashMap<String, Any>()
         val childUpdates2 = HashMap<String, Any>()
         val childUpdates3 = HashMap<String, Any>()
-        childUpdates1["/mission/$topic/total_money/moneys"] = postValues1
-        childUpdates2["/mission/$topic/total_pcTime/pcTimes"] = postValues2
+        childUpdates1["/mission/$topic/total_money"] = postValues1
+        childUpdates2["/mission/$topic/total_pcTime"] = postValues2
+        mDatabase.child("mission/$topic/detailmission/$missionName").setValue(null)
 
         mDatabase.updateChildren(childUpdates1)
         mDatabase.updateChildren(childUpdates2)
