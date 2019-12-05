@@ -34,6 +34,7 @@ class ParentFirstViewActivity : AppCompatActivity() {
     lateinit var adapter: ArrayAdapter<String>
     lateinit var button: Button
     lateinit var selectItem : String
+    lateinit var topic_list : ArrayList<String>
 
     lateinit var who : String
     lateinit var userId: String
@@ -54,11 +55,14 @@ class ParentFirstViewActivity : AppCompatActivity() {
         name = intent.getStringExtra("name")
         login_id_list = ArrayList()
         name_list = ArrayList()
+        topic_list = ArrayList()
         array = ArrayList()
         // 수정완료 버튼
         button = findViewById(R.id.fix_button) as Button
         button.setEnabled(false);
         button.setVisibility(Button.INVISIBLE);
+
+
 
         button.setOnClickListener {
             menu_check_position = 0
@@ -82,6 +86,11 @@ class ParentFirstViewActivity : AppCompatActivity() {
                         name_list.add(child)
                         adapter.add(child)
                     }
+                    for (i in name_list){
+                        topic = dataSnapshot.child(i).child("topic").value.toString()
+                        topic_list.add(topic)
+                        Log.d("sangmee", topic)
+                    }
 
                     adapter.notifyDataSetChanged()
                 }
@@ -92,17 +101,8 @@ class ParentFirstViewActivity : AppCompatActivity() {
         listview.adapter = adapter
 
         listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            selectItem = parent.getItemAtPosition(position) as String
-            Log.d("sangmee", selectItem)
-            mDatabase.child("users").child(who).child(userId).child("children").child(selectItem).child("topic").addListenerForSingleValueEvent(
-                object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
-                        topic = dataSnapshot.value.toString()
-                        Log.d("sangmee", topic)
-                    }
-                    override fun onCancelled(databaseError: DatabaseError) {}
+            topic = topic_list.get(position)
 
-                })
             if(menu_check_position == 0) {
                 val intent = Intent(this, BridgeActivity::class.java)
                 intent.putExtra("who",who)
