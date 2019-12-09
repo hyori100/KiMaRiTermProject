@@ -88,11 +88,12 @@ class compensation_money : AppCompatActivity() {
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
             this.startActivity(intent)
+            finish()
         }
     }
     // editText에 입력 후 버튼 누르면 결제 될지 안될지 정해주는 창
     fun use_money(i : Int) {
-        //Toast.makeText(this,i,Toast.LENGTH_SHORT).show()
+
         Log.d("chano",i.toString())
         if (i == 0) {
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)

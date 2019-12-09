@@ -80,6 +80,8 @@ class compensation_pc : AppCompatActivity() {
             intent.putExtra("name", name)
             intent.putExtra("topic", topic)
             this.startActivity(intent)
+            finish()
+
         }
     }
 
@@ -133,4 +135,6 @@ class compensation_pc : AppCompatActivity() {
 
         database.updateChildren(childUpdates)
     }
+
+
 }
