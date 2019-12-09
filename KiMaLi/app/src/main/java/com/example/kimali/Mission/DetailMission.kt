@@ -116,6 +116,7 @@ class DetailMission : AppCompatActivity() {
             intent.putExtra("topic", topic)
 
             this.startActivity(intent)
+            finish();
         }
         // 삭제하기 버튼
         deleteButton.setOnClickListener { view->

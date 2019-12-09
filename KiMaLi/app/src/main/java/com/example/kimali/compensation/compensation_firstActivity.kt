@@ -71,5 +71,14 @@ class compensation_firstActivity : AppCompatActivity() {
 
 
     }
+    override fun onBackPressed() {
+        val intent = Intent(this, BridgeActivity::class.java)
+        intent.putExtra("id", userId)
+        intent.putExtra("name", name)
+        intent.putExtra("who", who)
+        intent.putExtra("topic", topic)
+        this.startActivity(intent)
+
+    }
 
 }
