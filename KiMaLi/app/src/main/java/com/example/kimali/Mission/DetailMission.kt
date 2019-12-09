@@ -106,28 +106,7 @@ class DetailMission : AppCompatActivity() {
             this.startActivity(intent)
             finish()
         }
-        // 이부분이 수정버튼 클릭시
-        modifyButton.setOnClickListener { view->
-            // 여기서 파이어베이스에 현재 바뀐 내용을 저장할 수 있는 코드 작성해야함
-            val intent = Intent(this, MissionList::class.java)
-            intent.putExtra("id", userId)
-            intent.putExtra("who", who)
-            intent.putExtra("name", name)
-            intent.putExtra("topic", topic)
 
-            this.startActivity(intent)
-            finish();
-        }
-        // 삭제하기 버튼
-        deleteButton.setOnClickListener { view->
-            // 삭제 시 파이어베이스에서 현재 내용을 전부 다 delete
-            val intent = Intent(this, MissionList::class.java)
-            intent.putExtra("id", userId)
-            intent.putExtra("who", who)
-            intent.putExtra("name", name)
-
-            this.startActivity(intent)
-        }
 
     }
 
