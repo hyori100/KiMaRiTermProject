@@ -217,6 +217,7 @@ class MissionList : AppCompatActivity() {
         intent.putExtra("who", who)
         intent.putExtra("topic", topic)
         this.startActivity(intent)
+        finish()
 
     }
 }
