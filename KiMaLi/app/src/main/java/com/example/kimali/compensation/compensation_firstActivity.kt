@@ -48,7 +48,7 @@ class compensation_firstActivity : AppCompatActivity() {
                 override fun onSuccess(asyncActionToken: IMqttToken) { //연결에 성공한 경우
                     Log.i("hyoriTopic", "connection1")
                     try {
-                        client!!.subscribe(topic, 0) //topic값 받음.
+                        client!!.subscribe("topic", 0) //topic값 받음
                     } catch (e: MqttException) {
                         e.printStackTrace()
                     }

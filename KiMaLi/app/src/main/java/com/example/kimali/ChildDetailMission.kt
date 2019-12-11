@@ -91,6 +91,31 @@ class ChildDetailMission : AppCompatActivity() {
             e.printStackTrace()
         }
 
+        try {
+            val qos = 0
+            val subToken: IMqttToken =
+                client.publish("topic", topicStr.toByteArray(), qos, false)
+            subToken.actionCallback = object : IMqttActionListener {
+                override fun onSuccess(asyncActionToken: IMqttToken) { //연결에 성공한 경우
+                    Log.i("hyolls", "connection2")
+                    /*val text = "보호자에게 현재위치를 전송합니다."
+                    Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()*/
+                    topicStr = "안녕하세요"
+
+                }
+
+                override fun onFailure(
+                    asyncActionToken: IMqttToken,
+                    exception: Throwable
+                ) { //연결에 실패한 경우
+                    Toast.makeText(applicationContext, "연결에 실패하였습니다...(2)", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        } catch (fe: MqttException) {
+            fe.printStackTrace()
+        }
+
         val c= Calendar.getInstance()
 
         var dateString=""
@@ -101,30 +126,7 @@ class ChildDetailMission : AppCompatActivity() {
 
         okButton.setOnClickListener { view->
             // 여기서 버튼을 누르면 부모에게 알림이 전송될 수 있게 설정해줘야함
-            try {
-                val qos = 0
-                val subToken: IMqttToken =
-                    client.publish(topic, topicStr.toByteArray(), qos, false)
-                subToken.actionCallback = object : IMqttActionListener {
-                    override fun onSuccess(asyncActionToken: IMqttToken) { //연결에 성공한 경우
-                        Log.i("hyolls", "connection2")
-                        val text = "보호자에게 현재위치를 전송합니다."
-                        Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
-                        topicStr = "사용자의 현재위치입니다."
 
-                    }
-
-                    override fun onFailure(
-                        asyncActionToken: IMqttToken,
-                        exception: Throwable
-                    ) { //연결에 실패한 경우
-                        Toast.makeText(applicationContext, "연결에 실패하였습니다...(2)", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-            } catch (fe: MqttException) {
-                fe.printStackTrace()
-            }
 
             val intent = Intent(this, MissionList::class.java)
             intent.putExtra("id", userId)
