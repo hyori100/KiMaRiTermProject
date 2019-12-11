@@ -1,16 +1,18 @@
 package com.example.kimali.Mission
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.example.kimali.R
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.ChildDetailMission
+import com.example.kimali.R
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_mission_list.*
+import org.eclipse.paho.android.service.MqttAndroidClient
+import org.eclipse.paho.client.mqttv3.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,6 +34,9 @@ class MissionList : AppCompatActivity() {
     lateinit var mission_message: String
     lateinit var money: String
     lateinit var pcTime: String
+
+    var client: MqttAndroidClient? = null
+    lateinit var topic_value: String
 
 
 
@@ -60,7 +65,6 @@ class MissionList : AppCompatActivity() {
         textView3.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)))
 
 
-
         val addButton=findViewById(R.id.addButton) as Button
         addButton.setOnClickListener { view->
             val intent = Intent(this, AddMission::class.java)
@@ -74,9 +78,24 @@ class MissionList : AppCompatActivity() {
         if(who.equals("보호자")){
             addButton.setEnabled(true);
             addButton.setVisibility(Button.VISIBLE);
+
+            //mqtt 코드!!!!!!!!!!!!!!!!!!!!!
+            /*val recentPostsQuery: Query =
+                mDatabase.child(userId).child("topic")
+            recentPostsQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    topic_value = dataSnapshot.value.toString()
+                    Log.i("hyoriTopic", topic_value)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })*/
+
+
         }else {
             addButton.setEnabled(false);
             addButton.setVisibility(Button.INVISIBLE);
+
         }
 
         mDatabase.child("mission").child(topic).child("detailmission").addListenerForSingleValueEvent(
@@ -206,6 +225,8 @@ class MissionList : AppCompatActivity() {
 
 
     }
+
+
 
 
 }

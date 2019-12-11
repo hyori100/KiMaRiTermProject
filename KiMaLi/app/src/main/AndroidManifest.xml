@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ChildDetailMission"></activity>
-        <activity android:name=".BridgeActivity2" />
         <activity android:name=".compensation.compensation_pc" />
         <activity android:name=".compensation.compensation_money" />
         <activity android:name=".compensation.compensation_firstActivity" />
@@ -29,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+
     </application>
 
 </manifest>
