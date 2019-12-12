@@ -8,13 +8,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.ChildDetailMission
-import com.example.kimali.R
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_mission_list.*
 import org.eclipse.paho.android.service.MqttAndroidClient
-import org.eclipse.paho.client.mqttv3.*
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class MissionList : AppCompatActivity() {
 
@@ -25,6 +25,7 @@ class MissionList : AppCompatActivity() {
     lateinit var name : String
     lateinit var topic: String
     var missionName_list: ArrayList<String>  = ArrayList()
+    var dday_list:ArrayList<Int> = ArrayList()
     var deadline_list: ArrayList<String> = ArrayList()
     var mission_message_list: ArrayList<String>  = ArrayList()
     var money_list: ArrayList<String> = ArrayList()
@@ -98,6 +99,30 @@ class MissionList : AppCompatActivity() {
 
         }
 
+        fun getDDay(myear: Int, mmonth: Int, mday: Int): Int {
+            var mmonth = mmonth
+            return try {
+                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+                val todaCal = Calendar.getInstance()
+                val ddayCal = Calendar.getInstance()
+
+                mmonth -= 1
+                ddayCal[myear, mmonth] = mday // D-day의 날짜를 입력
+                Log.e("테스트", simpleDateFormat.format(todaCal.time).toString() + "")
+                Log.e("테스트", simpleDateFormat.format(ddayCal.time).toString() + "")
+
+                val today =
+                    todaCal.timeInMillis / (24 * 60 * 60 * 1000)
+                val dday = ddayCal.timeInMillis / (24 * 60 * 60 * 1000)
+                val count = dday - today // 오늘 날짜에서 dday 날짜를 빼주게 됩니다.
+                count.toInt()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                -1
+            }
+        }
+
         mDatabase.child("mission").child(topic).child("detailmission").addListenerForSingleValueEvent(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) { // Get user value
@@ -110,6 +135,14 @@ class MissionList : AppCompatActivity() {
                     }
                     for (i in missionName_list){
                         var deadline = dataSnapshot.child(i).child("deadLineString").value.toString()
+                        val str2 = StringTokenizer(deadline, " -")
+                        val i_array = IntArray(3)
+                        for (i in 0 until str2.countTokens()) {
+                            var str1=str2.nextToken().toInt()
+                            i_array.set(i,str1)
+                        }
+                        var ddayInt=getDDay(i_array.get(0),i_array.get(1),i_array.get(2))
+                        dday_list.add(ddayInt)
                         deadline_list.add(deadline)
                         Log.d("sangmeeDeadLine", deadline)
                     }
@@ -124,27 +157,27 @@ class MissionList : AppCompatActivity() {
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 mission_list.adapter =
-                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+                    HBaseAdapter(applicationContext, missionName_list, dday_list)
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 mission_list.adapter =
-                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+                    HBaseAdapter(applicationContext, missionName_list, dday_list)
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
                 mission_list.adapter =
-                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+                    HBaseAdapter(applicationContext, missionName_list, dday_list)
             }
 
             override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 mission_list.adapter =
-                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+                    HBaseAdapter(applicationContext, missionName_list, dday_list)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 mission_list.adapter =
-                    HBaseAdapter(applicationContext, missionName_list, deadline_list)
+                    HBaseAdapter(applicationContext, missionName_list, dday_list)
             }
 
         })
@@ -176,7 +209,7 @@ class MissionList : AppCompatActivity() {
 
         //baseAdapter로 생성
         mission_list.adapter =
-            HBaseAdapter(this, missionName_list, deadline_list)
+            HBaseAdapter(this, missionName_list, dday_list)
         mission_list.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
             Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
