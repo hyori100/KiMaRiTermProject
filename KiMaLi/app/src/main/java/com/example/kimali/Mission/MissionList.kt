@@ -1,5 +1,6 @@
 package com.example.kimali.Mission
 
+import com.example.kimali.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log

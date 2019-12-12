@@ -71,7 +71,7 @@
                 android:textStyle="bold"
                 android:text="일" />
 
-            
+
         </LinearLayout>
 
         <RelativeLayout
