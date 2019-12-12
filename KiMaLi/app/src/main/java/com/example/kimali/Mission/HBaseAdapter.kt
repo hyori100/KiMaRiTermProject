@@ -12,7 +12,7 @@ import com.example.kimali.R
  * Created by hong on 18. 1. 22.
  */
 
-class HBaseAdapter(context: Context,item : ArrayList<String>, item2 : ArrayList<String>) : BaseAdapter(){
+class HBaseAdapter(context: Context,item : ArrayList<String>, item2 : ArrayList<Int>) : BaseAdapter(){
     private val mContext = context
     private val mItem = item
     private val mItem2 = item2
@@ -27,7 +27,7 @@ class HBaseAdapter(context: Context,item : ArrayList<String>, item2 : ArrayList<
             viewHolder.textView = view.findViewById(R.id.textView)
             view.tag = viewHolder
             viewHolder.textView.text = mItem.get(position)
-            viewHolder.textView2.text = mItem2.get(position)
+            viewHolder.textView2.text = mItem2.get(position).toString()
             return view
         }else{
             viewHolder = view.tag as ViewHolder
