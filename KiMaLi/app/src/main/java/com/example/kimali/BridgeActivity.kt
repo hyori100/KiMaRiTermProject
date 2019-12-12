@@ -56,6 +56,7 @@ class BridgeActivity : AppCompatActivity() {
             //intent.putExtra("missionName_list", missionName_list)
             //intent.putExtra("deadline_list", deadline_list)
             this.startActivity(intent)
+            finish();
         }
 
         reward_btn.setOnClickListener {
@@ -65,6 +66,7 @@ class BridgeActivity : AppCompatActivity() {
             intent.putExtra("who",who)
             intent.putExtra("topic", topic)
             this.startActivity(intent)
+            finish();
         }
 
         val clientId: String = MqttClient.generateClientId()

@@ -6,9 +6,11 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.ChildDetailMission
 import com.example.kimali.R
+
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_mission_list.*
 import org.eclipse.paho.android.service.MqttAndroidClient
@@ -41,6 +43,7 @@ class MissionList : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
 
         super.onCreate(savedInstanceState)
         //setTheme(R.style.AppTheme_NoActionBar)
@@ -179,7 +182,6 @@ class MissionList : AppCompatActivity() {
             HBaseAdapter(this, missionName_list, deadline_list)
         mission_list.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
-            Toast.makeText(this, "Clicked item :"+" "+selectedItem, Toast.LENGTH_SHORT).show()
             missionName= missionName_list.get(position)
             deadline = deadline_list.get(position)
             mission_message = mission_message_list.get(position)
@@ -220,13 +222,21 @@ class MissionList : AppCompatActivity() {
                 intent.putExtra("pcTime", pcTime)
                 this.startActivity(intent)
             }
+
+
         }
 
 
 
     }
-
-
+    override fun onBackPressed() {
+        val intent = Intent(this, BridgeActivity::class.java)
+        intent.putExtra("id", userId)
+        intent.putExtra("name", name)
+        intent.putExtra("who", who)
+        intent.putExtra("topic", topic)
+        this.startActivity(intent)
+        finish()
 
 
 }
