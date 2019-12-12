@@ -111,7 +111,7 @@ class AddMission : AppCompatActivity() {
 
                     //디데이 계산하기
                     ddayInt=getDDay(lastYear,lastMonth,lastDay)
-                    Toast.makeText(applicationContext, "현재 dday는 "+ddayInt, Toast.LENGTH_SHORT).show()
+
 
                     /*textView1.setText(year.toString())
                     textView2.setText((monthOfYear+1).toString())
@@ -132,10 +132,9 @@ class AddMission : AppCompatActivity() {
         //확인완료 버튼
         finishButton.setOnClickListener { view->
             deadLineDate=lastDate
-            //한 미션의 데이터 확인을 위한 toast문
+
             missionName = missionName_edit.text.toString()
-            Toast.makeText(applicationContext,missionName+","+missionMessage.getText().toString()+","+
-                money+","+pcTime+","+deadLineDate,Toast.LENGTH_LONG).show()
+
 
             writeNewMission(missionName, missionMessage.getText().toString()
                 ,money,pcTime,deadLineDate)
