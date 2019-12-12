@@ -21,7 +21,6 @@ import org.eclipse.paho.client.mqttv3.*
 class BridgeActivity : AppCompatActivity() {
     private lateinit var mDatabase: DatabaseReference
 
-
     lateinit var who: String
     lateinit var name: String
     lateinit var userId: String
@@ -45,7 +44,6 @@ class BridgeActivity : AppCompatActivity() {
 
         var mission_list_btn = findViewById(R.id.mission_list_btn) as Button
         var reward_btn = findViewById(R.id.reward_btn) as Button
-
 
         mission_list_btn.setOnClickListener {
             val intent = Intent(this, MissionList::class.java)
