@@ -1,13 +1,16 @@
 package com.example.kimali.compensation
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import com.example.kimali.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kimali.R
 import com.google.firebase.database.*
+import org.eclipse.paho.android.service.MqttAndroidClient
+import org.eclipse.paho.client.mqttv3.*
 
 class compensation_firstActivity : AppCompatActivity() {
     lateinit var userId: String
@@ -17,7 +20,6 @@ class compensation_firstActivity : AppCompatActivity() {
     private lateinit var mDatabase: DatabaseReference
     lateinit var total_money :String
     lateinit var total_pcTime :String
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class compensation_firstActivity : AppCompatActivity() {
         Log.d("sangmee", topic)
         setTitle(name)
         mDatabase = FirebaseDatabase.getInstance().reference
+
 
 
         mDatabase.child("mission").child(topic).addListenerForSingleValueEvent(
@@ -80,6 +83,14 @@ class compensation_firstActivity : AppCompatActivity() {
         this.startActivity(intent)
         finish()
 
+    }
+
+    private fun getMqttConnectionOption(): MqttConnectOptions? {
+        val mqttConnectOptions = MqttConnectOptions()
+        mqttConnectOptions.isCleanSession = false
+        mqttConnectOptions.setAutomaticReconnect(true)
+        mqttConnectOptions.setWill("aaa", "I am going offline".toByteArray(), 1, true)
+        return mqttConnectOptions
     }
 
 }

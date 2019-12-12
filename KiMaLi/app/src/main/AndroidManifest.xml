@@ -3,6 +3,8 @@
     package="com.example.kimali">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ChildDetailMission"></activity>
-        <activity android:name=".BridgeActivity2" />
         <activity android:name=".compensation.compensation_pc" />
         <activity android:name=".compensation.compensation_money" />
         <activity android:name=".compensation.compensation_firstActivity" />
@@ -29,7 +30,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
+
     </application>
 
 </manifest>
